@@ -108,6 +108,6 @@ class Message:
 
 
 if __name__ == '__main__':
-    print(ReadConfigFile("C:\\Dev\\Messaging\\ModernCode\\Library\\.config"))
-    # test = Message("C:\\Dev\\Messaging\\ModernCode\\Test.db", "daniel.zheleznov", "s%3AEVlLBKZ1B-jJxmJgvCP9ZnvBJ6OFWWok.0Xq5lXTGeOtIxKgZMlXnjElD0SRIYl2lRR2gq4zxmMw", "s%3A6CicNN4mdjzmeqhatTTN798R.IP8%2BdMpyfZkUAjlr67tw7iGRhHG3kritTTQ%2BaIhJPSc")
-    # test.BlastMessages()
+    # print(ReadConfigFile("C:\\Dev\\Messaging\\ModernCode\\Library\\.config"))
+    test = Message("C:\\Dev\\Messaging\\ModernCode\\Test.db", "daniel.zheleznov", "s%3AEVlLBKZ1B-jJxmJgvCP9ZnvBJ6OFWWok.0Xq5lXTGeOtIxKgZMlXnjElD0SRIYl2lRR2gq4zxmMw", "s%3A6CicNN4mdjzmeqhatTTN798R.IP8%2BdMpyfZkUAjlr67tw7iGRhHG3kritTTQ%2BaIhJPSc")
+    test.BlastMessages()
