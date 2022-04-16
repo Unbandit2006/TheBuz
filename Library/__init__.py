@@ -48,7 +48,7 @@ class Message:
             approvedzipcode = zip[0]
             latitude = zip[1]
             longitude = zip[2]
-            info = zip[3]
+            # info = zip[3]
             
             if approvedzipcode == zipcode:
 
