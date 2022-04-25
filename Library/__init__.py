@@ -47,7 +47,7 @@ class Weather:
             JSONContent = loads(Forecast.text)
             Time = JSONContent["properties"]["periods"]
             Information = [rf"This is the Weather for the next {self.Hours} hours for Zipcode {self.Zip}:\n\n"]
-
+ 
             for Hour in range(self.Hours):
                Info = rf"{Time[Hour]['startTime'][11:13]}{Time[Hour]['startTime'][13:16]} Temperature: {Time[Hour]['temperature']}°F\nForecast: {Time[Hour]['shortForecast']}\n\n"
                Information.append(Info)

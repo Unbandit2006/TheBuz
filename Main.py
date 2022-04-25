@@ -26,7 +26,7 @@ UsersInformation = DBCursor.execute("SELECT * FROM Users").fetchall()
 for User in UsersInformation:
     DaysOfWeek = User[0].split(",")
     Number = str(User[3])
-
+    
     if DaysOfWeek.__contains__(CurrentWeekday) == True:
         # Checks to see if the User selected for this day
         if CurrentTime == User[1]:
