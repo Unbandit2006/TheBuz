@@ -2,6 +2,7 @@ from sqlite3 import connect
 from pytextnow import Client
 from datetime import datetime
 from Library import Weather
+import logging as log
 
 ### Default Variables ###
 USERNAME = "daniel.zheleznov"
@@ -22,6 +23,8 @@ Year = Now.strftime("%Y")
 
 UsersInformation = DBCursor.execute("SELECT * FROM Users").fetchall()
 
+log.basicConfig(level=log.INFO, filename="log.log", filemode="a", format="%(asctime)s||%(message)s")
+
 ### Goes through each user and sends if they wanted ###
 for User in UsersInformation:
     DaysOfWeek = User[0].split(",")
@@ -32,14 +35,26 @@ for User in UsersInformation:
         if CurrentTime == User[1]:
             if int(CurrentTime.split(":")[0]) >= 12:
                 # Evening Text Message
-                Messenger.send_sms(Number, rf"Good Afternoon {User[4]},\nToday is {MonthName} {DayOfMonth}, {Year}.")
+                try:
+                    Messenger.send_sms(Number, rf"Good Afternoon {User[4]},\nToday is {MonthName} {DayOfMonth}, {Year}.")
+                    log.info(f"Send Evening to {User[4]}||PHONE NUMBER: {Number}")
 
-                WeatherInfo = Weather(str(User[2]), User[5], DB).GetWeather()          
-                Messenger.send_sms(Number, WeatherInfo)
+                    WeatherInfo = Weather(str(User[2]), User[5], DB).GetWeather()          
+                    Messenger.send_sms(Number, WeatherInfo)
+                    log.info(f"Send Weather to {User[4]}||PHONE NUMBER: {Number}")
+                
+                except Exception as e:
+                    log.error(f"ERROR: {e}")
 
             elif int(CurrentTime.split(":")[0]) <= 12:
                 # Morning Text Message
-                Messenger.send_sms(Number, rf"Good Morning {User[4]},\nToday is {MonthName} {DayOfMonth}, {Year}.")
+                try:
+                    Messenger.send_sms(Number, rf"Good Morning {User[4]},\nToday is {MonthName} {DayOfMonth}, {Year}.")
+                    log.info(f"Send Morning to {User[4]}||PHONE NUMBER: {Number}")
 
-                WeatherInfo = Weather(str(User[2]), User[5], DB).GetWeather()
-                Messenger.send_sms(Number, WeatherInfo)
+                    WeatherInfo = Weather(str(User[2]), User[5], DB).GetWeather()
+                    Messenger.send_sms(Number, WeatherInfo)
+                    log.info(f"Send Weather to {User[4]}||PHONE NUMBER: {Number}") 
+
+                except Exception as e:
+                    log.error(f"ERROR: {e}")
