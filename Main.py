@@ -23,7 +23,7 @@ Year = Now.strftime("%Y")
 
 UsersInformation = DBCursor.execute("SELECT * FROM Users").fetchall()
 
-log.basicConfig(level=log.INFO, filename="log.log", filemode="a", format="%(asctime)s||%(message)s")
+log.basicConfig(level=log.INFO, filename="Sent.log", filemode="a", format="%(asctime)s||%(message)s")
 
 ### Goes through each user and sends if they wanted ###
 for User in UsersInformation:
@@ -44,7 +44,7 @@ for User in UsersInformation:
                     log.info(f"Send Weather to {User[4]}||PHONE NUMBER: {Number}")
                 
                 except Exception as e:
-                    log.error(f"ERROR: {e}")
+                    log.exception(f"ERROR: {e}")
 
             elif int(CurrentTime.split(":")[0]) <= 12:
                 # Morning Text Message
@@ -57,4 +57,4 @@ for User in UsersInformation:
                     log.info(f"Send Weather to {User[4]}||PHONE NUMBER: {Number}") 
 
                 except Exception as e:
-                    log.error(f"ERROR: {e}")
+                    log.exception(f"ERROR: {e}")

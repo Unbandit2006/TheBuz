@@ -2,7 +2,7 @@ from requests import request
 from json import loads
 import logging as log
 
-log.basicConfig(level=log.INFO, filename="log.log", filemode="a", format="%(asctime)s||%(message)s")
+log.basicConfig(level=log.INFO, filename="Sent.log", filemode="a", format="%(asctime)s||%(message)s")
 
 class Weather:
     def __init__(self, ZipCode, AmntOfHours, DBConnection):
