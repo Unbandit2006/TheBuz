@@ -43,7 +43,7 @@ class Weather:
                 return Informations
             
             except Exception as e:
-                log.error(f"ERROR: {e}")
+                log.exception(f"ERROR: {e}||PROPERTIES: {JSONContent['properties']}")
 
         else:
             # This is for when link is not null meaning it is actually populated with a link
@@ -66,4 +66,4 @@ class Weather:
                 return Informations
             
             except Exception as e:
-                log.error(f"ERROR: {e}")
+                log.exception(f"ERROR: {e}||PROPERTIES: {JSONContent['properties']}")
