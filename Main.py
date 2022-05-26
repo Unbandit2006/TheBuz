@@ -25,9 +25,9 @@ for User in UserData:
 	Number = UserData[User]['number']
 	Time = Time.split(":")
 
-	# if int(Time[0]) == CurrentHour and int(Time[1]) == CurrentMin:
-	# 	Message = GetWeatherData.WeatherData("016e19390dba4ad5807184556222205", Zipcode, AmntOfHours).GetWeatherData()
-	# 	Messenger.send_sms(str(Number), Message)
+	if int(Time[0]) == CurrentHour and int(Time[1]) == CurrentMin:
+		Message = GetWeatherData.WeatherData("016e19390dba4ad5807184556222205", Zipcode, AmntOfHours).GetWeatherData()
+		Messenger.send_sms(str(Number), Message)
 
-	Message = GetWeatherData.WeatherData("016e19390dba4ad5807184556222205", Zipcode, AmntOfHours).GetWeatherData()
-	Messenger.send_sms(str(Number), Message)
+	# Message = GetWeatherData.WeatherData("016e19390dba4ad5807184556222205", Zipcode, AmntOfHours).GetWeatherData()
+	# Messenger.send_sms(str(Number), Message)
