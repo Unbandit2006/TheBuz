@@ -29,6 +29,9 @@ class WeatherData:
 		
 		Message = [rf"The Weather for the next {self.Hours} hours for Zipcode {self.Zipcode}:\n\n"]
 		for Hour in HoursToSearch:
+			if int(Hour) >= 24:
+				Hour = Hour - 24
+
 			Time = ListofHours[Hour]['time'][11:16]
 			Temperature = ListofHours[Hour]['temp_f']
 			FeelsLike = ListofHours[Hour]['feelslike_f']
