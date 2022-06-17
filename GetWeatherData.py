@@ -53,9 +53,3 @@ class WeatherData:
 		self.Message = "".join(Message)
 
 		return self.Message
-
-if __name__ == '__main__':
-	thingy = WeatherData("016e19390dba4ad5807184556222205", 10306, 2)
-	Message = thingy.GetWeatherData()
-	print(Message)
-
