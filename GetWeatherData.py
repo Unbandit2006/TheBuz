@@ -30,28 +30,26 @@ class WeatherData:
 
         Message = [rf"The Weather for the next {self.Hours} hours for Zipcode {self.Zipcode}:\n\n"]
         for Hour in HoursToSearch:
-            if int(Hour) >= 24:
+            Period = ""
+
+            if int(Hour) == 24:
+                Hour = Hour - 12
+                Period = "AM"
+
+            elif int(Hour) >= 24:
                 Hour = Hour - 24
+                Period = "AM"
+
+            else:
+                Period = "PM"
 
             Time = ListofHours[Hour]['time'][11:16]
             Temperature = ListofHours[Hour]['temp_f']
             FeelsLike = ListofHours[Hour]['feelslike_f']
             BriefForecast = ListofHours[Hour]['condition']['text']
 
-            if int(Time[:2]) > 12:
-                Hour = int(Time[:2]) - 12
-                Message.append(
-                    rf"At {Hour}:{Time[3:]} PM\nBrief Forecast: {BriefForecast}\nIt is {Temperature}°F, but feels like {FeelsLike}°F\n\n")
-
-            elif int(Time[:2]) == 12:
-                Hour = int(Time[:2])
-                Message.append(
-                    rf"At {Hour}:{Time[3:]} PM\nBrief Forecast: {BriefForecast}\nIt is {Temperature}°F, but feels like {FeelsLike}°F\n\n")
-
-            else:
-                Hour = int(Time[:2])
-                Message.append(
-                    rf"At {Hour}:{Time[3:]} AM\nBrief Forecast: {BriefForecast}\nIt is {Temperature}°F, but feels like {FeelsLike}°F\n\n")
+            Message.append(
+                rf"At {Hour}:{Time[3:]} {Period}\nBrief Forecast: {BriefForecast}\nIt is {Temperature}°F, but feels like {FeelsLike}°F\n\n")
 
         self.Message = "".join(Message)
 
