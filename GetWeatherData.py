@@ -57,7 +57,7 @@ class WeatherData:
             BriefForecast = ListofHours[Hour]['condition']['text']
 
             Message.append(
-                rf"At {Hour}:{Time[3:]} {Period}\nBrief Forecast: {BriefForecast}\nIt is {Temperature}°F, but feels like {FeelsLike}°F\n\n")
+                rf"At {Hour}:{Time[3:]} {Period}\nBrief Forecast: {BriefForecast}\nTemperature: {Temperature}°F\nFeels Like: {FeelsLike}°F\n\n")
 
         self.Message = "".join(Message)
 
