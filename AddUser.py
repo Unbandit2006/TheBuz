@@ -20,7 +20,7 @@ AmntOfHours = int(input("Amount of Hours: "))
 PhoneNum = int(input("Phone Number: "))
 Hour = str(input("Send At What Hour [0-24]: "))
 Min = str(input("Send At What Min [00-59]: "))
-Zipcode = int(input("Zipcode: "))
+Zipcode = input("Zipcode: ")
 
 UserRef.push().set({
     "amntOfHours": AmntOfHours,
