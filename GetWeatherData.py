@@ -33,14 +33,22 @@ class WeatherData:
             Period = ""
 
             if int(Hour) == 24:
-                Hour = Hour - 12
+                Hour = 12
                 Period = "AM"
 
-            elif int(Hour) >= 24:
-                Hour = Hour - 24
+            elif int(Hour) > 24:
+                Hour = int(Hour) - 24
                 Period = "AM"
 
-            else:
+                if int(Hour) == 12:
+                    Period = "PM"
+
+                elif int(Hour) > 12:
+                    Hour = int(Hour) - 12
+                    Period = "PM"
+            
+            elif int(Hour) > 12:
+                Hour = int(Hour) - 12
                 Period = "PM"
 
             Time = ListofHours[Hour]['time'][11:16]

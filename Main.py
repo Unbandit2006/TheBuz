@@ -36,3 +36,4 @@ for User in UserData:
     if int(Time[0]) == CurrentHour and int(Time[1]) == CurrentMin:
         Message = GetWeatherData.WeatherData(APIKEY, Zipcode, AmntOfHours).GetWeatherData()
         Messenger.send_sms(str(Number), Message)
+        print(f"Sent To {UserInfo} at {CurrentTime}")
