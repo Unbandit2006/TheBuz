@@ -50,6 +50,10 @@ class WeatherData:
             elif int(Hour) > 12:
                 Hour = int(Hour) - 12
                 Period = "PM"
+            
+            elif int(Hour) < 12:
+                Hour = int(Hour)
+                Period = "AM"
 
             Time = ListofHours[Hour]['time'][11:16]
             Temperature = ListofHours[Hour]['temp_f']
