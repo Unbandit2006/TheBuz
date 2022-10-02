@@ -24,6 +24,7 @@ CurrentHour = CurrentTime.tm_hour
 CurrentMin = CurrentTime.tm_min
 
 Messenger = pytextnow.Client(USERNAME, SID_COOKIE, CSRF_COOKIE)
+Messenger.auth_reset(sid_cookie=SID_COOKIE, csrf_cookie=CSRF_COOKIE)
 
 for User in UserData:
     UserInfo = UserData[User]
@@ -35,5 +36,6 @@ for User in UserData:
 
     if int(Time[0]) == CurrentHour and int(Time[1]) == CurrentMin:
         Message = GetWeatherData.WeatherData(APIKEY, Zipcode, AmntOfHours).GetWeatherData()
+        print(f"\nThe Weather Data is {Message}")
         Messenger.send_sms(str(Number), Message)
-        print(f"Sent To {UserInfo} at {CurrentTime}")
+        print(f"Sent To {UserInfo} at {CurrentTime}\n")
