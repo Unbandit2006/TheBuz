@@ -1,6 +1,6 @@
-# Beeper
+# The Buz
 For several months, I've been working on this project on and off. It was my pride and joy, but the time has come to say goodbye. It has taught me a great deal. It caused me a tremendous deal of pain, but I have never been happier with it. I will now release the project as open source for everyone to use. But be warned: I have a few things to tell you about how to run it.
-## Requirements to run Beeper
+## Requirements to run The Buz
 Well since it is a Python project, you will need to install Python as well as pip, Python's package manager.
 
 </br><b>To check if you have Python run:</b>
@@ -30,7 +30,7 @@ You are perfectly fine with what you have.
 pip install firebase_admin pytextnow
 ```
 
-## To Run Beeper
+## To Run The Buz
 Now that everything is installed you have just a little bit to run the program
 
 - You need to make a Firebase account and make a realtime database with whatever name you want.
