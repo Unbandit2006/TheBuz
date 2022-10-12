@@ -75,3 +75,12 @@ Users {
     };
 };
 ```
+
+## Tools
+### Current Tools
+[WeatherAPI](https://www.weatherapi.com/)
+[DB](https://firebase.com)
+[Text](https://www.textnow.com)
+
+### Upcoming Tools
+[WeatherAPI](https://www.visualcrossing.com/weather-data)
