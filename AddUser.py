@@ -21,9 +21,11 @@ PhoneNum = int(input("Phone Number: "))
 Hour = str(input("Send At What Hour [0-24]: "))
 Min = str(input("Send At What Min [00-59]: "))
 Zipcode = input("Zipcode: ")
+Birthday = input("Birthday: ")
 
 UserRef.push().set({
     "amntOfHours": AmntOfHours,
+    "celebrations": {"birthday":[Birthday, "me"]},
     "fname": FirstName,
     "lname": LastName,
     "number": PhoneNum,

@@ -64,6 +64,7 @@ Users {
         "number":int value;
         "time":"Hour:Min" /*In that notaition Hour can be from 0-23*/;
         "zipcode":int value;
+        "celebrations": dict value /*In the dictionary it will be the "NameOfCelebration":["Date","AdditionalInfo"]*/;
     };
     RandomUser2 {
         "amntOfHours":int value;
@@ -72,6 +73,7 @@ Users {
         "number":int value;
         "time":"Hour:Min" /*In that notaition Hour can be from 0-23*/;
         "zipcode":int value;
+        "celebrations": dict value /*In the dictionary it will be the "NameOfCelebration":["Date","AdditionalInfo"]*/;
     };
 };
 ```
