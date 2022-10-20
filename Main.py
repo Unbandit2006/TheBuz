@@ -5,6 +5,7 @@ import time
 import GetWeatherData
 import pytextnow
 import calendar
+import Anniversaries as Ann
 
 USERNAME = "daniel.zheleznov"  # Type your textnow username here
 SID_COOKIE = "s%3Ap9_JYxmBC1B-YAe0kgIzhRv1DW1T8NjZ.2MJMus0dmOmI9hboz6c2MJERrZwiGx7qtPqOckVPtFg"  # Get your SID cookie from the textnow website and put it here
@@ -51,5 +52,10 @@ for User in UserData:
         Message += GetWeatherData.WeatherData(APIKEY, Zipcode, AmntOfHours).GetWeatherData()
         print(f"\nThe Weather Data is {Message}")
         print(len(Message))
+
+        AnnMessage = Ann.Anniversaries(UserInfo).GetAniversariesData()
+        Message += AnnMessage
+        print(f"\nThe Anniversary Data is {AnnMessage}")
+        
         Messenger.send_sms(str(Number), Message)
-        print(f"Sent To {UserInfo} at {CurrentTime}\n")
+        print(f"\nSent To {UserInfo} at {CurrentTime}\n")
