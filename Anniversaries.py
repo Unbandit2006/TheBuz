@@ -15,24 +15,23 @@ class Anniversaries:
         Celebrations = self.User.get("celebrations", False)
 
         if Celebrations != False:
-            
-            for Celebration in Celebrations:
-                CelebrationType = Celebration
-                CelebrationDate = Celebrations[Celebration][0]
-                CelebrationAdditional = Celebrations[Celebration][1]
+            Birthdays = Celebrations.get("birthdays", False)
+            Anniversaries = Celebrations.get("anniversaries", False)
 
-                if CelebrationDate == self.Today:
-                    # TODO MAKE A FILING SYSTEM THAT WILL FILE OUT UNIQUE MESSAGES FOR ANNISVERSAY AN BIRTHDAYS
-
-                    if CelebrationType == "birthday":
-                        if CelebrationAdditional == "me":
-                            Message += f"Happy Birthday {self.User.get('fname')}. 🎉🎂🎈\nMay this birthday and the coming year bring you good surprises — filled with sunshine, smiles and sweethearts.\n\n"
+            if Birthdays != False:
+                for Birthday in Birthdays:
+                    BirthdayDate = Birthday[0]
+                    BirthdayPerson = Birthday[1]
+                    if BirthdayDate == self.Today:
+                        if BirthdayPerson == "me":
+                            Message += f"Happy Birthday {self.User.get('fname')}!! 🎉🎂🎈\nMay this birthday and the coming year bring you good surprises — filled with sunshine, and smiles.\n\n"
                         
                         else:
-                            Message += f"Don't forget to congratulate {CelebrationAdditional} on their birthday. 🎉🎂🎈\n\n"
-
-                    elif CelebrationType == "aniversary":
-                        pass
+                            Message += f"Don't forget to congratulate {BirthdayPerson} on their birthday. 🎉🎂🎈\n\n"
+            
+            if Anniversaries != False:
+                for Anniversary in Anniversaries:
+                    pass
 
         return Message
 
