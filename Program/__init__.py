@@ -170,8 +170,6 @@ class Weather:
             self.__return_message += rf"Max Temperature: {data['daily_max_temp']} °F\n"
             self.__return_message += rf"Min Temperature: {data['daily_min_temp']} °F\n\n"
 
-            print(data["chance_rain"])
-
             if data["chance_rain"] != 0:
                 self.__return_message += rf"There is a {data['chance_rain']}% chance of rain today. ☔☹\nDon't forget to bring an umbrella. ☂\n\n"
             
