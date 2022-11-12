@@ -5,6 +5,13 @@ import time
 
 class Time:
     def __init__(self):
+        '''
+        Name: Time
+        Type: Class
+        Author: Daniel Zheleznov
+
+        Description: Creates Time object to get that time
+        '''
         self.__current_time_secounds = time.time()
         self.__current_time = time.localtime(self.__current_time_secounds)
 
@@ -34,6 +41,9 @@ class Time:
         }
 
     def get_minutes(self):
+        '''
+        Description: Returns the current minutes
+        '''
         if self.__current_time[4] <  10:
             return "0" + str(self.__current_time[4])
         
@@ -41,6 +51,9 @@ class Time:
             return str(self.__current_time[4]) 
     
     def get_hour(self):
+        '''
+        Description: Returns the current hour
+        '''
         if self.__current_time[3] < 10:
             return "0" + str(self.__current_time[3])
         
@@ -48,15 +61,27 @@ class Time:
             return str(self.__current_time[3])
 
     def get_month_name(self):
+        '''
+        Description: Returns the Month Name
+        '''
         return self.__months.get(self.__current_time[1])
     
     def get_day_number(self):
+        '''
+        Description: Return the day number
+        '''
         return str(self.__current_time[2])
     
     def get_day_name(self):
+        '''
+        Description: Return the day name
+        '''
         return self.__weekdays.get(self.__current_time[6])
     
     def get_year(self):
+        '''
+        Description: Return the current year
+        '''
         return str(self.__current_time[0])
 
 '''
