@@ -51,7 +51,7 @@ class User:
         user_time = self.__user.get("time").split(":")
 
         if user_time[0] == time.get_hour() and user_time[1] == time.get_minutes():
-            self.__message += rf"Today is {time.get_day_name()}, {time.get_month_name()} {time.get_day_number()}, {time.get_year()}.\n"
+            self.__message += rf"Hello {self.__user.get('fname')} {self.__user.get('lname')}.\nToday is {time.get_day_name()}, {time.get_month_name()} {time.get_day_number()}, {time.get_year()}.\n"
             
             if self.__user.get("weather", False):
                 weather = Program.Weather(weather_api_key, self.__user.get("zipcode"))
