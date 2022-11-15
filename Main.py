@@ -21,6 +21,7 @@ class User:
         '''
         self.__user = user_info
         self.__message = ""
+        self.__has_run = False
 
     def get_name(self):
         '''
@@ -50,13 +51,15 @@ class User:
         
         user_time = self.__user.get("time").split(":")
 
-        if user_time[0] == time.get_hour() and user_time[1] == time.get_minutes():
+        if user_time[0] == time.get_hour() and user_time[1] == time.get_minutes() and self.__has_run == False:
             self.__message += rf"Hello {self.__user.get('fname')}.\nToday is {time.get_day_name()}, {time.get_month_name()} {time.get_day_number()}, {time.get_year()}.\n"
             
-            if self.__user.get("weather", False):
+            if self.__user.get("weather", False) and self.__has_run == False:
                 weather = Program.Weather(weather_api_key, self.__user.get("zipcode"))
                 self.__message += weather.get_data()
 
+            
+            self.__has_run = True
             return self.__message
 
 class FirebaseReader:
@@ -113,15 +116,17 @@ messenger.auth_reset(sid_cookie=_sid_cookie, csrf_cookie=_csrf_cookie)
 
 reader = FirebaseReader(config, mode)
 
-for user in reader.get_all_usernames():
-    info = reader.get_value(user)
+while True:
 
-    new_user = User(info)
-    message = new_user.create_message(config.get("CONSTANTS", "weather_api_key"))
+    for user in reader.get_all_usernames():
+        info = reader.get_value(user)
 
-    if message != None:
-        messenger.send_sms(new_user.get_number(), message)
-        print(f"Sent to {new_user.get_name()}\nMessage: '{new_user.get_message()}'")
+        new_user = User(info)
+        message = new_user.create_message(config.get("CONSTANTS", "weather_api_key"))
+
+        if message != None:
+            messenger.send_sms(new_user.get_number(), message)
+            print(f"Sent to {new_user.get_name()}\nMessage: '{new_user.get_message()}'")
 
 
 
