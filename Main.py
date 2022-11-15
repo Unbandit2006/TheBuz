@@ -46,6 +46,12 @@ class User:
         Description: Returns the has_run for the user
         '''
         return self.__has_run
+
+    def get_hour(self):
+        return self.__user["time"].split(":")[0]
+    
+    def get_minutes(self):
+        return self.__user["time"].split(":")[1]
     
     def create_message(self, weather_api_key:str):
         '''
@@ -106,7 +112,13 @@ class FirebaseReader:
         '''
         return self.__db_ref.child(key).get()        
 
+def create_user_objs(usernames: list) -> list[User]:
+    user_objs = []
 
+    for user in usernames:
+        user_objs.append(User(reader.get_value(user)))
+    
+    return user_objs
 
 config = configparser.RawConfigParser()
 config.read("Config.ini")
@@ -121,15 +133,18 @@ messenger.auth_reset(sid_cookie=_sid_cookie, csrf_cookie=_csrf_cookie)
 
 reader = FirebaseReader(config, mode)
 
-for user in reader.get_all_usernames():
-    info = reader.get_value(user)
+users = create_user_objs(reader.get_all_usernames())
 
-    new_user = User(info)
-    message = new_user.create_message(config.get("CONSTANTS", "weather_api_key"))
+time = Program.Time()
+for i in range(2):
+    for user in users:
 
-    if message != None:
-        messenger.send_sms(new_user.get_number(), message)
-        print(f"Sent to {new_user.get_name()}\nMessage: '{new_user.get_message()}'")
+        print(user.get_name(), user.get_run())
+
+        if user.get_run() == False and time.get_hour() == user.get_hour() and time.get_minutes() == user.get_minutes():
+            message = user.create_message(config.get("CONSTANTS", "weather_api_key"))
+            messenger.send_sms(user.get_number(), message)
+            print(f"Sent to {user.get_name()}\nMessage: '{user.get_message()}'")
 
 
 
