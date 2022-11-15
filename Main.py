@@ -41,6 +41,12 @@ class User:
         '''
         return self.__message
     
+    def get_run(self):
+        '''
+        Description: Returns the has_run for the user
+        '''
+        return self.__has_run
+    
     def create_message(self, weather_api_key:str):
         '''
         Description: Creates a message, currently only does weather and current date
@@ -58,7 +64,6 @@ class User:
                 weather = Program.Weather(weather_api_key, self.__user.get("zipcode"))
                 self.__message += weather.get_data()
 
-            
             self.__has_run = True
             return self.__message
 
@@ -116,17 +121,15 @@ messenger.auth_reset(sid_cookie=_sid_cookie, csrf_cookie=_csrf_cookie)
 
 reader = FirebaseReader(config, mode)
 
-while True:
+for user in reader.get_all_usernames():
+    info = reader.get_value(user)
 
-    for user in reader.get_all_usernames():
-        info = reader.get_value(user)
+    new_user = User(info)
+    message = new_user.create_message(config.get("CONSTANTS", "weather_api_key"))
 
-        new_user = User(info)
-        message = new_user.create_message(config.get("CONSTANTS", "weather_api_key"))
-
-        if message != None:
-            messenger.send_sms(new_user.get_number(), message)
-            print(f"Sent to {new_user.get_name()}\nMessage: '{new_user.get_message()}'")
+    if message != None:
+        messenger.send_sms(new_user.get_number(), message)
+        print(f"Sent to {new_user.get_name()}\nMessage: '{new_user.get_message()}'")
 
 
 
