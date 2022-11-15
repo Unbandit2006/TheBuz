@@ -48,9 +48,15 @@ class User:
         return self.__has_run
 
     def get_hour(self):
+        '''
+        Description: Returns the hour for the user
+        '''
         return self.__user["time"].split(":")[0]
     
     def get_minutes(self):
+        '''
+        Description: Returns the minutes for the user
+        '''
         return self.__user["time"].split(":")[1]
     
     def create_message(self, weather_api_key:str):
@@ -138,9 +144,6 @@ users = create_user_objs(reader.get_all_usernames())
 time = Program.Time()
 for i in range(2):
     for user in users:
-
-        print(user.get_name(), user.get_run())
-
         if user.get_run() == False and time.get_hour() == user.get_hour() and time.get_minutes() == user.get_minutes():
             message = user.create_message(config.get("CONSTANTS", "weather_api_key"))
             messenger.send_sms(user.get_number(), message)
