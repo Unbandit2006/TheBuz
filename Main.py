@@ -110,6 +110,20 @@ class FirebaseReader:
         
         return usernames
     
+    def get_etag(self):
+        '''
+        Description: Returns ETag to be used in get_if_changed
+        '''
+        etag = self.__db_ref.get(etag=True)
+        etage = etag[1]
+        return etage
+
+    def get_if_changed(self, etag):
+        '''
+        Description: Returns if something in the Users table is changed
+        '''
+        return self.__db_ref.get_if_changed(etag)
+    
     def get_value(self, key):
         '''
         Description: Returns the value for the provided key
