@@ -153,10 +153,16 @@ messenger.auth_reset(sid_cookie=_sid_cookie, csrf_cookie=_csrf_cookie)
 
 reader = FirebaseReader(config, mode)
 
+old_etag = reader.get_etag()
 users = create_user_objs(reader.get_all_usernames())
 
-time = Program.Time()
-for i in range(2):
+
+while True:
+    if reader.get_if_changed(old_etag)[0] == True:
+        users = create_user_objs(reader.get_all_usernames())
+        old_etag = reader.get_if_changed(old_etag)[2]
+
+    time = Program.Time()
     for user in users:
         if user.get_run() == False and time.get_hour() == user.get_hour() and time.get_minutes() == user.get_minutes():
             message = user.create_message(config.get("CONSTANTS", "weather_api_key"))
