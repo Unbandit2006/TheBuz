@@ -39,6 +39,9 @@ class Time:
             5:"Saturday",
             6:"Sunday"
         }
+    
+    def get_unix(self):
+        return self.__current_time_secounds
 
     def get_minutes(self):
         '''
