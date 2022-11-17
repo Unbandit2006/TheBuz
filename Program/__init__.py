@@ -174,7 +174,7 @@ class Weather:
         pretified_data = json.loads(raw_data)
 
         parsed_data["daily_max_temp"] = pretified_data["forecast"]["forecastday"][0]["day"]["maxtemp_f"]
-        parsed_data["daily_min_temp"] = pretified_data["forecast"]["forecastday"][0]["day"]["maxtemp_f"]
+        parsed_data["daily_min_temp"] = pretified_data["forecast"]["forecastday"][0]["day"]["mintemp_f"]
         parsed_data["icon"] = self.__emojis.get(pretified_data["forecast"]["forecastday"][0]["day"]["condition"]["code"], "")
         parsed_data["overall_forecast"] = pretified_data["forecast"]["forecastday"][0]["day"]["condition"]["text"]
         parsed_data["chance_rain"] = pretified_data["forecast"]["forecastday"][0]["day"]["daily_chance_of_rain"]
