@@ -35,6 +35,12 @@ class User:
         '''
         return str(self.__user.get("number"))
     
+    def get_zipcode(self):
+        '''
+        Description: Returns the zipcode of the user
+        '''
+        return self.__user.get("zipcode")
+    
     def get_message(self):
         '''
         Description: Returns the message for the user
@@ -140,6 +146,14 @@ def create_user_objs(usernames: list) -> list[User]:
     
     return user_objs
 
+def get_user_numbers(users:list):
+    user_nums = {}
+    
+    for user in users:
+        user_nums[user.get_number()] = user.get_zipcode()
+
+    return user_nums
+
 config = configparser.RawConfigParser()
 config.read("Config.ini")
 
@@ -153,21 +167,45 @@ messenger.auth_reset(sid_cookie=_sid_cookie, csrf_cookie=_csrf_cookie)
 
 reader = FirebaseReader(config, mode)
 
-old_etag = reader.get_etag()
+# Usernames
+usernames_reference = admin.db.reference("Usernames")
+usernames_etag = usernames_reference.get(etag=True)[1]
+
+old_etag = usernames_etag
 users = create_user_objs(reader.get_all_usernames())
+user_numbers = get_user_numbers(users)
 
 
 while True:
-    if reader.get_if_changed(old_etag)[0] == True:
+    unread_messages = messenger.get_unread_messages()
+
+    for unread_message in unread_messages:
+        if unread_message.first_contact == False:
+            random_user_zip = user_numbers.get(unread_message.number[1:])
+
+            if unread_message.content.lower() == "update":
+                weather_api_key = config.get("CONSTANTS", "weather_api_key")
+
+                message = rf"Current Weather\n---------------"
+                new_weather = Program.Weather(weather_api_key, random_user_zip)
+                message += new_weather.get_data()
+
+                messenger.send_sms(unread_message.number, message)
+                print(f"Sent to {unread_message.number[1:]}\nMessage: '{message}'\nUPDATE\n")
+        
+        unread_message.mark_as_read()
+
+    if  usernames_reference.get_if_changed(old_etag) == True:
         users = create_user_objs(reader.get_all_usernames())
-        old_etag = reader.get_if_changed(old_etag)[2]
+        user_numbers = get_user_numbers(users)
+        old_etag = usernames_reference.get(etag=True)[1]
 
     time = Program.Time()
     for user in users:
         if user.get_run() == False and time.get_hour() == user.get_hour() and time.get_minutes() == user.get_minutes():
-            message = user.create_message(config.get("CONSTANTS", "weather_api_key"))
-            messenger.send_sms(user.get_number(), message)
-            print(f"Sent to {user.get_name()}\nMessage: '{user.get_message()}'")
+                message = user.create_message(config.get("CONSTANTS", "weather_api_key"))
+                messenger.send_sms(user.get_number(), message)
+                print(f"Sent to {user.get_name()}\nMessage: '{user.get_message()}'")
 
 
 
