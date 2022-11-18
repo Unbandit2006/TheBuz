@@ -183,7 +183,7 @@ while True:
         if unread_message.first_contact == False:
             random_user_zip = user_numbers.get(unread_message.number[1:])
 
-            if unread_message.content.lower() == "update":
+            if unread_message.content.lower().strip() == "update":
                 weather_api_key = config.get("CONSTANTS", "weather_api_key")
 
                 message = rf"Current Weather\n---------------"
