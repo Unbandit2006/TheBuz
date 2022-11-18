@@ -69,6 +69,12 @@ class Time:
         '''
         return self.__months.get(self.__current_time[1])
     
+    def get_month_number(self):
+        '''
+        Description: Returns the Month Number
+        '''    
+        return self.__current_time[1]
+
     def get_day_number(self):
         '''
         Description: Return the day number

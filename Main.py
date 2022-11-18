@@ -177,6 +177,7 @@ user_numbers = get_user_numbers(users)
 
 
 while True:
+    time = Program.Time()
     unread_messages = messenger.get_unread_messages()
 
     for unread_message in unread_messages:
@@ -191,7 +192,7 @@ while True:
                 message += new_weather.get_data()
 
                 messenger.send_sms(unread_message.number, message)
-                print(f"Sent to {unread_message.number[1:]}\nMessage: '{message}'\nUPDATE\n")
+                print(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {unread_message.number[1:]}\nMessage: '{message}'\nUPDATE\n")
         
         unread_message.mark_as_read()
 
@@ -200,12 +201,11 @@ while True:
         user_numbers = get_user_numbers(users)
         old_etag = usernames_reference.get(etag=True)[1]
 
-    time = Program.Time()
     for user in users:
         if user.get_run() == False and time.get_hour() == user.get_hour() and time.get_minutes() == user.get_minutes():
                 message = user.create_message(config.get("CONSTANTS", "weather_api_key"))
                 messenger.send_sms(user.get_number(), message)
-                print(f"Sent to {user.get_name()}\nMessage: '{user.get_message()}'")
+                print(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {user.get_name()}\nMessage: '{user.get_message()}'")
 
 
 
