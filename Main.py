@@ -154,6 +154,11 @@ def get_user_numbers(users:list):
 
     return user_nums
 
+def log(string:str, log_file:str=".log"):
+    with open(log_file, "a", encoding="utf-8") as file:
+        file.write(string)
+    
+
 config = configparser.RawConfigParser()
 config.read("Config.ini")
 
@@ -193,6 +198,7 @@ while True:
 
                 messenger.send_sms(unread_message.number, message)
                 print(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {unread_message.number[1:]}\nMessage: '{message}'\nUPDATE\n")
+                log(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {unread_message.number[1:]}\nMessage: '{message}'\nUPDATE\n")
         
         unread_message.mark_as_read()
 
@@ -206,6 +212,6 @@ while True:
                 message = user.create_message(config.get("CONSTANTS", "weather_api_key"))
                 messenger.send_sms(user.get_number(), message)
                 print(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {user.get_name()}\nMessage: '{user.get_message()}'")
-
+                log(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {unread_message.number[1:]}\nMessage: '{message}'\nUPDATE\n")
 
 
