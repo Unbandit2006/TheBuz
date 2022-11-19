@@ -157,7 +157,10 @@ def get_user_numbers(users:list):
 def log(string:str, log_file:str=".log"):
     with open(log_file, "a", encoding="utf-8") as file:
         file.write(string)
-    
+
+def log_error(string:str, log_file:str=".log"):
+    with open(log_file, "a", encoding="utf-8") as file:
+        file.write(f"ERROR: {string}")
 
 config = configparser.RawConfigParser()
 config.read("Config.ini")
@@ -183,7 +186,12 @@ user_numbers = get_user_numbers(users)
 
 while True:
     time = Program.Time()
-    unread_messages = messenger.get_unread_messages()
+
+    try:
+        unread_messages = messenger.get_unread_messages()
+    except Exception as e:
+        print(e)
+        log_error(e)
 
     for unread_message in unread_messages:
         if unread_message.first_contact == False:
