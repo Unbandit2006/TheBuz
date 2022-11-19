@@ -182,7 +182,7 @@ usernames_etag = usernames_reference.get(etag=True)[1]
 old_etag = usernames_etag
 users = create_user_objs(reader.get_all_usernames())
 user_numbers = get_user_numbers(users)
-
+old_users_etag = reader.get_etag()
 
 while True:
     time = Program.Time()
@@ -210,12 +210,13 @@ while True:
         
         unread_message.mark_as_read()
 
-    if  usernames_reference.get_if_changed(old_etag) == True:
+
+    if usernames_reference.get_if_changed(old_etag)[0] == True:
         users = create_user_objs(reader.get_all_usernames())
         user_numbers = get_user_numbers(users)
         old_etag = usernames_reference.get(etag=True)[1]
-
-    for user in create_user_objs(reader.get_all_usernames()): 
+    
+    for user in users: 
         if user.get_run() == False and time.get_hour() == user.get_hour() and time.get_minutes() == user.get_minutes():
             message = user.create_message(config.get("CONSTANTS", "weather_api_key"))
             messenger.send_sms(user.get_number(), message)
