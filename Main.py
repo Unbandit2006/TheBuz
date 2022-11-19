@@ -207,7 +207,7 @@ while True:
         user_numbers = get_user_numbers(users)
         old_etag = usernames_reference.get(etag=True)[1]
 
-    for user in users:
+    for user in create_user_objs(reader.get_all_usernames()): 
         if user.get_run() == False and time.get_hour() == user.get_hour() and time.get_minutes() == user.get_minutes():
             message = user.create_message(config.get("CONSTANTS", "weather_api_key"))
             messenger.send_sms(user.get_number(), message)
