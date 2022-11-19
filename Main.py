@@ -210,6 +210,10 @@ while True:
         
         unread_message.mark_as_read()
 
+    if reader.get_if_changed(old_users_etag)[0] == True and usernames_reference.get_if_changed(old_etag)[0] == False:
+        users = create_user_objs(reader.get_all_usernames())
+        user_numbers = get_user_numbers(users)
+        old_users_etag = reader.get_etag()
 
     if usernames_reference.get_if_changed(old_etag)[0] == True:
         users = create_user_objs(reader.get_all_usernames())
@@ -219,8 +223,9 @@ while True:
     for user in users: 
         if user.get_run() == False and time.get_hour() == user.get_hour() and time.get_minutes() == user.get_minutes():
             message = user.create_message(config.get("CONSTANTS", "weather_api_key"))
+            print(message)
             messenger.send_sms(user.get_number(), message)
-            print(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {user.get_name()}\nMessage: '{user.get_message()}'")
-            log(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {unread_message.number[1:]}\nMessage: '{message}'\nUPDATE\n")
+            print(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {user.get_name()}\nMessage: '{user.get_message()}'\n\n")
+            log(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {user.get_name()}\nMessage: '{user.get_message()}'\n\n")
 
 
