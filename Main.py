@@ -92,6 +92,7 @@ while True:
             try:
                 messenger.send_sms(user.get_number(), message)
             except Exception as e:
+                print(e)
                 log_error(e)
             print(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {user.get_name()}\nMessage: '{message}'\n\n")
             log(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {user.get_name()}\nMessage: '{message}'\n\n")
