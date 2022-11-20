@@ -282,7 +282,7 @@ class User:
         Arguments: weather_api_key - the sequence of letters and numbers that weather api provides
         '''
         self.__user.get("time")
-        time = Program.Time()
+        time = Time()
         
         user_time = self.__user.get("time").split(":")
 
@@ -290,7 +290,7 @@ class User:
             self.__message += rf"Hello {self.__user.get('fname')}.\nToday is {time.get_day_name()}, {time.get_month_name()} {time.get_day_number()}, {time.get_year()}.\n"
             
             if self.__user.get("weather", False) and self.__has_run == False:
-                weather = Program.Weather(weather_api_key, self.__user.get("zipcode"))
+                weather = Weather(weather_api_key, self.__user.get("zipcode"))
                 self.__message += weather.get_data()
 
             self.__has_run = True
