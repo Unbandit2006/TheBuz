@@ -88,8 +88,12 @@ while True:
     for user in users: 
         if user.get_run() == False and time.get_hour() == user.get_hour() and time.get_minutes() == user.get_minutes():
             message = user.create_message(config.get("CONSTANTS", "weather_api_key"))
-            messenger.send_sms(user.get_number(), message)
-            print(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {user.get_name()}\nMessage: '{user.get_message()}'\n\n")
-            log(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {user.get_name()}\nMessage: '{user.get_message()}'\n\n")
+            print(f"'{message}'\n")
+            try:
+                messenger.send_sms(user.get_number(), message)
+            except Exception as e:
+                log_error(e)
+            print(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {user.get_name()}\nMessage: '{message}'\n\n")
+            log(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {user.get_name()}\nMessage: '{message}'\n\n")
 
 
