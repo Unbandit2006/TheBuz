@@ -90,7 +90,6 @@ while True:
         for user in users: 
             if user.get_run() == False and time.get_hour() == user.get_hour() and time.get_minutes() == user.get_minutes():
                 message = user.create_message(config.get("CONSTANTS", "weather_api_key"))
-                print(f"'{message}'\n")
                 try:
                     messenger.send_sms(user.get_number(), message)
                 except Exception as e:
