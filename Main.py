@@ -57,8 +57,8 @@ while True:
         try:
             unread_messages = messenger.get_unread_messages()
         except Exception as e:
-            print(e)
-            log_error(e)
+            print(e+"\n")
+            log_error(e+"\n")
 
         for unread_message in unread_messages:
             if unread_message.first_contact == False:
@@ -74,6 +74,11 @@ while True:
                     messenger.send_sms(unread_message.number, message)
                     print(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {unread_message.number[1:]}\nMessage: '{message}'\nUPDATE\n")
                     log(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {unread_message.number[1:]}\nMessage: '{message}'\nUPDATE\n")
+            
+                else:
+                    message = rf"Did you mean to send?\nUpdate - to get the most recent and accurate data"
+                    print(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {unread_message.number[1:]}\nMessage: '{message}'\n")
+                    log(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {unread_message.number[1:]}\nMessage: '{message}'\n")
             
             unread_message.mark_as_read()
 
@@ -93,8 +98,8 @@ while True:
                 try:
                     messenger.send_sms(user.get_number(), message)
                 except Exception as e:
-                    print(e)
-                    log_error(e)
+                    print(e+"\n")
+                    log_error(e+"\n")
                 print(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {user.get_name()}\nMessage: '{message}'\n\n")
                 log(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {user.get_name()}\nMessage: '{message}'\n\n")
 
