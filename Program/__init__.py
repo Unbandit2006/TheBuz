@@ -185,17 +185,20 @@ class Weather:
         parsed_data = {}
         pretified_data = json.loads(raw_data)
 
-        parsed_data["daily_max_temp"] = pretified_data["forecast"]["forecastday"][0]["day"]["maxtemp_f"]
-        parsed_data["daily_min_temp"] = pretified_data["forecast"]["forecastday"][0]["day"]["mintemp_f"]
+        parsed_data["daily_max_temp_f"] = pretified_data["forecast"]["forecastday"][0]["day"]["maxtemp_f"]
+        parsed_data["daily_max_temp_c"] = pretified_data["forecast"]["forecastday"][0]["day"]["maxtemp_c"]
+        parsed_data["daily_min_temp_f"] = pretified_data["forecast"]["forecastday"][0]["day"]["mintemp_f"]
+        parsed_data["daily_min_temp_c"] = pretified_data["forecast"]["forecastday"][0]["day"]["mintemp_c"]
         parsed_data["icon"] = self.__emojis.get(pretified_data["forecast"]["forecastday"][0]["day"]["condition"]["code"], "")
         parsed_data["overall_forecast"] = pretified_data["forecast"]["forecastday"][0]["day"]["condition"]["text"]
         parsed_data["chance_rain"] = pretified_data["forecast"]["forecastday"][0]["day"]["daily_chance_of_rain"]
         parsed_data["chance_snow"] = pretified_data["forecast"]["forecastday"][0]["day"]["daily_chance_of_snow"]
+        parsed_data["current"] = pretified_data["current"]
 
         return parsed_data
         
 
-    def get_data(self):
+    def get_data(self, degrees:str="f"):
         '''
         Description: Returns parsed weather data in string form
         Attributes: none
@@ -204,8 +207,10 @@ class Weather:
         if self.__expanded == 0:
             self.__return_message += r"\n\n"
             self.__return_message += rf"Overall Forecast: {data['overall_forecast']} {data['icon']}\n"
-            self.__return_message += rf"Max Temperature: {data['daily_max_temp']} °F\n"
-            self.__return_message += rf"Min Temperature: {data['daily_min_temp']} °F\n\n"
+            query_max = "daily_max_temp_"+degrees
+            query_min = "daily_min_temp_"+degrees
+            self.__return_message += rf"Max Temperature: {data[query_max]} °{degrees.capitalize()}\n"
+            self.__return_message += rf"Min Temperature: {data[query_min]} °{degrees.capitalize()}\n\n"
 
             if data["chance_rain"] != 0:
                 self.__return_message += rf"There is a {data['chance_rain']}% chance of rain today. ☔☹\nDon't forget to bring an umbrella. ☂\n\n"
@@ -215,6 +220,12 @@ class Weather:
         
         return self.__return_message
 
+    def get_current_feels_like_temp(self, degrees:str="f"):
+        data = self.__request_data()
+        query = "feelslike_"+degrees
+        current_feels_like = rf"It currently feels like: {data['current'][query]} °{degrees.capitalize()}"
+
+        return current_feels_like
 class User:
     '''
     Name: User

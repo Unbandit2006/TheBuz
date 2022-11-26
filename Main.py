@@ -19,13 +19,21 @@ def get_user_numbers(users:list):
 
     return user_nums
 
-def log(string:str, log_file:str=".log"):
+def log(message:str, number:str, custom_message:str, log_file:str=".log"):
+    time = Time()
     with open(log_file, "a", encoding="utf-8") as file:
-        file.write(string)
+        dmessage = rf"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {number}\nMessage: '{message}'\n{custom_message}\n"
+        dmessage_print = f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {number}\nMessage: '{message}'\n{custom_message}\n"
+        file.write(dmessage)
+        print(dmessage)
 
-def log_error(string:str, log_file:str=".log"):
+def log_error(message:str, log_file:str=".log"):
+    time = Time()
     with open(log_file, "a", encoding="utf-8") as file:
-        file.write(f"ERROR: {string}")
+        dmessage = rf"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nError Message: {message}\nERROR\n"
+        dmessage_print = f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nError Message: {message}\nERROR\n"
+        file.write(dmessage)
+        print(dmessage_print)
 
 config = configparser.RawConfigParser()
 config.read("Config.ini")
@@ -57,29 +65,51 @@ while True:
         try:
             unread_messages = messenger.get_unread_messages()
         except Exception as e:
-            print(e+"\n")
-            log_error(e+"\n")
+            log_error(e)
 
+        available_commands = {"update":"Get the most recent and up to date information of the weather."}
         for unread_message in unread_messages:
             if unread_message.first_contact == False:
                 random_user_zip = user_numbers.get(unread_message.number[1:])
+                unread_message.message = unread_message.content.lower().strip()
 
-                if unread_message.content.lower().strip() == "update":
-                    weather_api_key = config.get("CONSTANTS", "weather_api_key")
+                weather_api_key = config.get("CONSTANTS", "weather_api_key")
+                
+                if unread_message.message.__contains__(" ") == True:
+                    unread_message.message = unread_message.message.split(" ")
+                    random_user_zip = unread_message.message[1]
 
-                    message = rf"Current Weather\n---------------"
+                    try:
+                        message = rf"Current Weather\nAt Zipcode {random_user_zip}\n---------------\n"
+                        new_weather = Weather(weather_api_key, random_user_zip)
+                        message += new_weather.get_current_feels_like_temp()
+                        message += new_weather.get_data()
+
+                        messenger.send_sms(unread_message.number, message)
+                        log(message, unread_message.number[1:], "UPDATE")
+
+                    except Exception as e:
+                        message = r"Invalid Zipcode\n\nThe number you have typed up is an invalid zipcode.\nPlease type in a valid zipcode with the 'Update' command."
+                        messenger.send_sms(unread_message.number, message)
+                        log(message, unread_message.number[1:], "UPDATE_ERROR")
+                
+                elif unread_message.message == "update":
+                    message = rf"Current Weather\n---------------\n"
                     new_weather = Weather(weather_api_key, random_user_zip)
+                    message += new_weather.get_current_feels_like_temp()
                     message += new_weather.get_data()
 
                     messenger.send_sms(unread_message.number, message)
-                    print(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {unread_message.number[1:]}\nMessage: '{message}'\nUPDATE\n")
-                    log(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {unread_message.number[1:]}\nMessage: '{message}'\nUPDATE\n")
-            
-                else:
-                    message = rf"Did you mean to send?\nUpdate - to get the most recent and accurate data"
-                    print(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {unread_message.number[1:]}\nMessage: '{message}'\n")
-                    log(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {unread_message.number[1:]}\nMessage: '{message}'\n")
-            
+                    log(message, unread_message.number[1:], "UPDATE")
+
+                elif unread_message.message not in available_commands.keys():
+                    message = rf"Unknown Command\nPlease type one of the following for their respective actions:\n\n"
+                    for x in available_commands:
+                        message += rf"{x.capitalize()} <Valid Zipcode> - {available_commands[x]}\n"
+                    
+                    messenger.send_sms(unread_message.number[1:], message)
+                    log(message, unread_message.number[1:], "UNKNOWN COMMAND")
+                    
             unread_message.mark_as_read()
 
         if reader.get_if_changed(old_users_etag)[0] == True and usernames_reference.get_if_changed(old_etag)[0] == False:
@@ -98,10 +128,9 @@ while True:
                 try:
                     messenger.send_sms(user.get_number(), message)
                 except Exception as e:
-                    print(e+"\n")
-                    log_error(e+"\n")
-                print(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {user.get_name()}\nMessage: '{message}'\n\n")
-                log(f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {user.get_name()}\nMessage: '{message}'\n\n")
+                    log_error(e)
+
+                log(message, user.get_number(), "SENT")
 
     else:
         old_time = Time()
