@@ -77,21 +77,23 @@ while True:
                 
                 if unread_message.message.__contains__(" ") == True:
                     unread_message.message = unread_message.message.split(" ")
-                    random_user_zip = unread_message.message[1]
 
-                    try:
-                        message = rf"Current Weather\nAt Zipcode {random_user_zip}\n---------------\n"
-                        new_weather = Weather(weather_api_key, random_user_zip)
-                        message += new_weather.get_current_feels_like_temp()
-                        message += new_weather.get_data()
+                    if unread_message.message[0] == "update":
+                        random_user_zip = unread_message.message[1]
 
-                        messenger.send_sms(unread_message.number, message)
-                        log(message, unread_message.number[1:], "UPDATE")
+                        try:
+                            message = rf"Current Weather\nAt Zipcode {random_user_zip}\n---------------\n"
+                            new_weather = Weather(weather_api_key, random_user_zip)
+                            message += new_weather.get_current_feels_like_temp()
+                            message += new_weather.get_data()
 
-                    except Exception as e:
-                        message = r"Invalid Zipcode\n\nThe number you have typed up is an invalid zipcode.\nPlease type in a valid zipcode with the 'Update' command."
-                        messenger.send_sms(unread_message.number, message)
-                        log(message, unread_message.number[1:], "UPDATE_ERROR")
+                            messenger.send_sms(unread_message.number, message)
+                            log(message, unread_message.number[1:], "UPDATE")
+
+                        except Exception as e:
+                            message = r"Invalid Zipcode\n\nThe number you have typed up is an invalid zipcode.\nPlease type in a valid zipcode with the 'Update' command."
+                            messenger.send_sms(unread_message.number, message)
+                            log(message, unread_message.number[1:], "UPDATE_ERROR")
                 
                 elif unread_message.message == "update":
                     message = rf"Current Weather\n---------------\n"
