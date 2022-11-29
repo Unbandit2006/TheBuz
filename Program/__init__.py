@@ -302,6 +302,7 @@ class User:
             
             if self.__user.get("weather", False) and self.__has_run == False:
                 weather = Weather(weather_api_key, self.__user.get("zipcode"))
+                self.__message += weather.get_current_feels_like_temp()
                 self.__message += weather.get_data()
 
             self.__has_run = True
