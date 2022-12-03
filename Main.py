@@ -67,7 +67,7 @@ while True:
         except Exception as e:
             log_error(e)
 
-        available_commands = {"update <Valid Zipcode>":"Get the most recent and up to date information of the weather."}
+        available_commands = {"update <Valid Zipcode>":"Get the most recent and up to date information of the weather.","help":"Get information about all of our commands"}
         for unread_message in unread_messages:
             if unread_message.first_contact == False:
                 random_user_zip = user_numbers.get(unread_message.number[1:])
@@ -104,7 +104,15 @@ while True:
                     messenger.send_sms(unread_message.number, message)
                     log(message, unread_message.number[1:], "UPDATE")
 
-                elif unread_message.message not in available_commands.keys():
+                elif unread_message.message == "help" or unread_message.message == "?":
+                    message = rf""
+                    for x in available_commands:
+                        message += rf"{x.capitalize()} - {available_commands[x]}\n"
+
+                    messenger.send_sms(unread_message.number[1:], message)
+                    log(message, unread_message.number[1:], "HELP")
+
+                else:
                     message = rf"Unknown Command\nPlease type one of the following for their respective actions:\n\n"
                     for x in available_commands:
                         message += rf"{x.capitalize()} - {available_commands[x]}\n"
@@ -127,6 +135,7 @@ while True:
         for user in users: 
             if user.get_run() == False and time.get_hour() == user.get_hour() and time.get_minutes() == user.get_minutes():
                 message = user.create_message(config.get("CONSTANTS", "weather_api_key"))
+                message += r"\n\nType 'help' or '?' to get information about all of our commands"
                 try:
                     messenger.send_sms(user.get_number(), message)
                 except Exception as e:
