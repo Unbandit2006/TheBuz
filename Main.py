@@ -135,7 +135,7 @@ while True:
         for user in users: 
             if user.get_run() == False and time.get_hour() == user.get_hour() and time.get_minutes() == user.get_minutes():
                 message = user.create_message(config.get("CONSTANTS", "weather_api_key"))
-                message += r"\n\nType 'help' or '?' to get information about all of our commands"
+                message += r"Type 'help' or '?' to get information about all of our commands"
                 try:
                     messenger.send_sms(user.get_number(), message)
                 except Exception as e:
