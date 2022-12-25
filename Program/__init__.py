@@ -287,16 +287,17 @@ class User:
         '''
         return self.__user["time"].split(":")[1]
     
+    def get_days(self):
+        return self.__user.get("dow")
+    
     def create_message(self, weather_api_key:str):
         '''
         Description: Creates a message, currently only does weather and current date
         Arguments: weather_api_key - the sequence of letters and numbers that weather api provides
         '''
-        self.__user.get("time")
         time = Time()
         
         user_time = self.__user.get("time").split(":")
-
         if user_time[0] == time.get_hour() and user_time[1] == time.get_minutes() and self.__has_run == False:
             self.__message += rf"Hello {self.__user.get('fname')}.\nToday is {time.get_day_name()}, {time.get_month_name()} {time.get_day_number()}, {time.get_year()}.\n"
             
