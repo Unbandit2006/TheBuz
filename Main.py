@@ -133,17 +133,15 @@ while True:
             old_etag = usernames_reference.get(etag=True)[1]
         
         for user in users:
-            user_days = user.get_days()
-            if time.get_day_name() in user_days:
-                if user.get_run() == False and time.get_hour() == user.get_hour() and time.get_minutes() == user.get_minutes():
-                    message = user.create_message(config.get("CONSTANTS", "weather_api_key"))
-                    message += r"Type 'help' or '?' to get information about all of our commands"
-                    try:
-                        messenger.send_sms(user.get_number(), message)
-                    except Exception as e:
-                        log_error(e)
+            if user.get_run() == False and time.get_hour() == user.get_hour() and time.get_minutes() == user.get_minutes():
+                message = user.create_message(config.get("CONSTANTS", "weather_api_key"))
+                message += r"Type 'help' or '?' to get information about all of our commands"
+                try:
+                    messenger.send_sms(user.get_number(), message)
+                except Exception as e:
+                    log_error(e)
 
-                    log(message, user.get_number(), "SENT")
+                log(message, user.get_number(), "SENT")
 
     else:
         old_time = Time()
