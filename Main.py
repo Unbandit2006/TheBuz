@@ -60,12 +60,14 @@ old_time = Time()
 
 while True:
     time = Time()
+    logger = Logger(time)
+    logger.start()
 
     if time.get_day_number() == old_time.get_day_number():
         try:
             unread_messages = messenger.get_unread_messages()
         except Exception as e:
-            log_error(e)
+            logger.message("None", e, "ERROR")
 
         available_commands = {"update <Valid Zipcode>":"Get the most recent and up to date information of the weather.","help":"Get information about all of our commands"}
         for unread_message in unread_messages:
@@ -88,12 +90,12 @@ while True:
                             message += new_weather.get_data()
 
                             messenger.send_sms(unread_message.number, message)
-                            log(message, unread_message.number[1:], "UPDATE")
+                            logger.message(unread_message.number[1:], message, "SUCCESS && UPDATE")
 
                         except Exception as e:
                             message = r"Invalid Zipcode\n\nThe number you have typed up is an invalid zipcode.\nPlease type in a valid zipcode with the 'Update' command."
                             messenger.send_sms(unread_message.number, message)
-                            log(message, unread_message.number[1:], "UPDATE_ERROR")
+                            logger.message(unread_message.number[1:], message, "ERROR && UPDATE")
                 
                 elif unread_message.message == "update":
                     message = rf"Current Weather\n---------------\n"
@@ -102,7 +104,7 @@ while True:
                     message += new_weather.get_data()
 
                     messenger.send_sms(unread_message.number, message)
-                    log(message, unread_message.number[1:], "UPDATE")
+                    logger.message(unread_message.number[1:], message, "SUCCESS && UPDATE")
 
                 elif unread_message.message == "help" or unread_message.message == "?":
                     message = rf""
@@ -110,7 +112,7 @@ while True:
                         message += rf"{x.capitalize()} - {available_commands[x]}\n"
 
                     messenger.send_sms(unread_message.number[1:], message)
-                    log(message, unread_message.number[1:], "HELP")
+                    logger.message(unread_message.number[1:], message, "SUCCESS && HELP")
 
                 else:
                     message = rf"Unknown Command\nPlease type one of the following for their respective actions:\n\n"
@@ -118,7 +120,7 @@ while True:
                         message += rf"{x.capitalize()} - {available_commands[x]}\n"
                     
                     messenger.send_sms(unread_message.number[1:], message)
-                    log(message, unread_message.number[1:], "UNKNOWN COMMAND")
+                    logger.message(unread_message.number[1:], message, "UNKNOWN COMMAND")
                     
             unread_message.mark_as_read()
 
@@ -139,9 +141,9 @@ while True:
                 try:
                     messenger.send_sms(user.get_number(), message)
                 except Exception as e:
-                    log_error(e)
+                    logger.message(user.get_number(), e, "ERROR")
 
-                log(message, user.get_number(), "SENT")
+                logger.message(user.get_number(), message, "SENT")
 
     else:
         old_time = Time()

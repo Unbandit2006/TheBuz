@@ -361,3 +361,29 @@ class FirebaseReader:
         key - what to search in the database
         '''
         return self.__db_ref.child(key).get()
+
+
+import os
+class Logger:
+    def __init__(self, clock:Time):
+        self.clock = clock
+    
+    def start(self):
+        directory = f"{self.clock.get_year()}\\{self.clock.get_month_number()}"
+
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+        file = f"log_{self.clock.get_year()}{self.clock.get_month_number()}{self.clock.get_day_number()}.psv"
+        file = directory +"\\"+file
+        self.current_file = file
+
+        if os.path.exists(directory+"\\"+file):
+            with open(file, "x") as f:
+                f.write("Time|Recipient|Message|Status\n")
+            
+    def message(self, recipient, message, status):
+        with open(self.current_file, "a", encoding="utf-8") as f:
+            message = str(message)
+            f.write(f"{self.clock.get_hour()}:{self.clock.get_minutes()}|{recipient}|{message}|{status}\n")
+            print(f"{self.clock.get_hour()}:{self.clock.get_minutes()}|{recipient}|{message}|{status}\n")
