@@ -369,16 +369,17 @@ class Logger:
         self.clock = clock
     
     def start(self):
-        directory = f"{self.clock.get_year()}\\{self.clock.get_month_number()}"
+        directory = f"{self.clock.get_year()}/{self.clock.get_month_number()}"
+        directory = os.path.abspath(directory)
 
         if not os.path.exists(directory):
             os.makedirs(directory)
 
         file = f"log_{self.clock.get_year()}{self.clock.get_month_number()}{self.clock.get_day_number()}.psv"
-        file = directory +"\\"+file
+        file = directory +"/"+file
         self.current_file = file
 
-        if os.path.exists(directory+"\\"+file):
+        if not os.path.exists(file):
             with open(file, "x") as f:
                 f.write("Time|Recipient|Message|Status\n")
             
