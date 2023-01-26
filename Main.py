@@ -19,22 +19,6 @@ def get_user_numbers(users:list):
 
     return user_nums
 
-def log(message:str, number:str, custom_message:str, log_file:str=".log"):
-    time = Time()
-    with open(log_file, "a", encoding="utf-8") as file:
-        dmessage = rf"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {number}\nMessage: '{message}'\n{custom_message}\n"
-        dmessage_print = f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nSent to {number}\nMessage: '{message}'\n{custom_message}\n"
-        file.write(dmessage)
-        print(dmessage)
-
-def log_error(message:str, log_file:str=".log"):
-    time = Time()
-    with open(log_file, "a", encoding="utf-8") as file:
-        dmessage = rf"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nError Message: {message}\nERROR\n"
-        dmessage_print = f"At [{time.get_hour()}:{time.get_minutes()}] [{time.get_month_number()}/{time.get_day_number()}/{time.get_year()}]\nError Message: {message}\nERROR\n"
-        file.write(dmessage)
-        print(dmessage_print)
-
 config = configparser.RawConfigParser()
 config.read("Config.ini")
 
