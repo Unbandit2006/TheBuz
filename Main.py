@@ -22,11 +22,11 @@ def get_user_numbers(users:list):
 config = configparser.RawConfigParser()
 config.read("Config.ini")
 
-mode = "HOME"
+mode = "PRODUCTION"
 
-username = str(config.get("CONSTANTS", "username"))
-_sid_cookie = str(config.get("CONSTANTS", "sid_cookie"))
-_csrf_cookie = str(config.get("CONSTANTS", "csrf_cookie"))
+username = str(config.get(mode, "username"))
+_sid_cookie = str(config.get(mode, "sid_cookie"))
+_csrf_cookie = str(config.get(mode, "csrf_cookie"))
 messenger = pytextnow.Client(username, _sid_cookie, _csrf_cookie)
 messenger.auth_reset(sid_cookie=_sid_cookie, csrf_cookie=_csrf_cookie)
 
@@ -59,7 +59,7 @@ while True:
                 random_user_zip = user_numbers.get(unread_message.number[1:])
                 unread_message.message = unread_message.content.lower().strip()
 
-                weather_api_key = config.get("CONSTANTS", "weather_api_key")
+                weather_api_key = config.get(mode, "weather_api_key")
                 
                 if unread_message.message.__contains__(" ") == True:
                     unread_message.message = unread_message.message.split(" ")
@@ -120,7 +120,7 @@ while True:
         
         for user in users:
             if user.get_run() == False and time.get_hour() == user.get_hour() and time.get_minutes() == user.get_minutes():
-                message = user.create_message(config.get("CONSTANTS", "weather_api_key"))
+                message = user.create_message(config.get(mode, "weather_api_key"))
                 message += r"Type 'help' or '?' to get information about all of our commands"
                 try:
                     messenger.send_sms(user.get_number(), message)
