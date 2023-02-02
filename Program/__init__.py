@@ -179,11 +179,13 @@ class Weather:
         Internal Function
         Description: returns data from the API
         Attributes: none
-        '''        
+        '''       
         req = request.request("GET", "https://api.weatherapi.com/v1/forecast.json", params={"key":self.__api_key, "q":self.__zipcode, "days":1, "aqi":self.__aqi})
         raw_data = req.text
         parsed_data = {}
         pretified_data = json.loads(raw_data)
+
+        print(pretified_data)
 
         parsed_data["daily_max_temp_f"] = pretified_data["forecast"]["forecastday"][0]["day"]["maxtemp_f"]
         parsed_data["daily_max_temp_c"] = pretified_data["forecast"]["forecastday"][0]["day"]["maxtemp_c"]

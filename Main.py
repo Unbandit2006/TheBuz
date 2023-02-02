@@ -42,6 +42,9 @@ user_numbers = get_user_numbers(users)
 old_users_etag = reader.get_etag()
 old_time = Time()
 
+IncomingMessageCounter = 0
+OutgoingMessageCounter = 0
+
 while True:
     time = Time()
     logger = Logger(time)
@@ -55,6 +58,8 @@ while True:
 
         available_commands = {"update <Valid Zipcode>":"Get the most recent and up to date information of the weather.","help":"Get information about all of our commands"}
         for unread_message in unread_messages:
+            IncomingMessageCounter += 1
+
             if unread_message.first_contact == False:
                 random_user_zip = user_numbers.get(unread_message.number[1:])
                 unread_message.message = unread_message.content.lower().strip()
@@ -70,24 +75,29 @@ while True:
                         try:
                             message = rf"Current Weather\nAt Zipcode {random_user_zip}\n---------------\n"
                             new_weather = Weather(weather_api_key, random_user_zip)
+                            print(new_weather)
                             message += new_weather.get_current_feels_like_temp()
                             message += new_weather.get_data()
 
                             messenger.send_sms(unread_message.number, message)
+                            OutgoingMessageCounter += 1
                             logger.message(unread_message.number[1:], message, "SUCCESS && UPDATE")
 
                         except Exception as e:
                             message = r"Invalid Zipcode\n\nThe number you have typed up is an invalid zipcode.\nPlease type in a valid zipcode with the 'Update' command."
                             messenger.send_sms(unread_message.number, message)
+                            OutgoingMessageCounter += 1
                             logger.message(unread_message.number[1:], message, "ERROR && UPDATE")
                 
                 elif unread_message.message == "update":
                     message = rf"Current Weather\n---------------\n"
                     new_weather = Weather(weather_api_key, random_user_zip)
+                    print(new_weather)
                     message += new_weather.get_current_feels_like_temp()
                     message += new_weather.get_data()
 
                     messenger.send_sms(unread_message.number, message)
+                    OutgoingMessageCounter += 1
                     logger.message(unread_message.number[1:], message, "SUCCESS && UPDATE")
 
                 elif unread_message.message == "help" or unread_message.message == "?":
@@ -96,7 +106,13 @@ while True:
                         message += rf"{x.capitalize()} - {available_commands[x]}\n"
 
                     messenger.send_sms(unread_message.number[1:], message)
+                    OutgoingMessageCounter += 1
                     logger.message(unread_message.number[1:], message, "SUCCESS && HELP")
+                
+                elif unread_message.message == "messages":
+                    OutgoingMessageCounter += 1
+                    messenger.send_sms(unread_message.number[1:], fr"Outgoing Messages: {OutgoingMessageCounter}\nIncoming Messages: {IncomingMessageCounter}")
+                    logger.message(unread_message.number[1:], fr"Outgoing Messages: {OutgoingMessageCounter}\nIncoming Messages: {IncomingMessageCounter}", "SUCCESS && MESSAGES")
 
                 else:
                     message = rf"Unknown Command\nPlease type one of the following for their respective actions:\n\n"
@@ -104,6 +120,7 @@ while True:
                         message += rf"{x.capitalize()} - {available_commands[x]}\n"
                     
                     messenger.send_sms(unread_message.number[1:], message)
+                    OutgoingMessageCounter += 1
                     logger.message(unread_message.number[1:], message, "UNKNOWN COMMAND")
                     
             unread_message.mark_as_read()
@@ -124,6 +141,7 @@ while True:
                 message += r"Type 'help' or '?' to get information about all of our commands"
                 try:
                     messenger.send_sms(user.get_number(), message)
+                    OutgoingMessageCounter += 1
                 except Exception as e:
                     logger.message(user.get_number(), e, "ERROR")
 
