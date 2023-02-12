@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "python",
+            "name": "Alexandria Run",
+            "arguments": ["Alexandria/__init__.py"],
+        },
+
+    ]
+}
