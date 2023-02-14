@@ -8,7 +8,7 @@ import Scripts
 import time
 
 # Read Configuration File
-mode = "Dev"
+mode = "Production"
 with open("Configuration.json", "r") as file:
     config = json.load(file)[mode]
 
