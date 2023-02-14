@@ -1,0 +1,46 @@
+{
+    "Dev": {
+        "user": {
+            "name": "johncrichton.mars",
+            "sid_cookie": "s%3AhlNLynXAPZWAZAH41kMESFlBpI4X2qPp.xKf%2F%2FI4uTJIsQHTI4lqrUjXqopytNWsuBDhXkGkuC6E",
+            "csrf_cookie": "s%3AlXVCCIofxy1i_9vPa0w4xuXI.%2FhI%2BD1nl1a4SEIBzAU12ztTmwSpqb9WxD4RK2epVC2k"
+        },
+        "database": {
+            "reference_url": "https://beeper5252022-default-rtdb.firebaseio.com/",
+            "credentials":{
+                          "type": "service_account",
+                          "project_id": "beeper5252022",
+                          "private_key_id": "2022802ce385c5a0dd20a68507114e95c6bf192b",
+                          "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDCyXLHrF3RiZyv\nTUKoxiGR5tej3zuI/UfCLScTOnKG09WzSj2uamiJUI87uYCtcH9nlYsCuAZFbUJf\nhyJkcfY1HYBLGenTg1dg2tDmhaTJZiwPd3dJVoxo4bdcXL7e7OLNHMHevPGoVa/d\noGsst+4lgDWtg9LEGDPC173BIeEajNzMbtaGtuI3c4cuzkjLL/r+mK42ngJNagK3\nA+0TnG32OkQdPzKbFeRWhr3b5BX5v4wgtaPGuQBemcOfInRxkHRQlgR2GjBahR2x\npVOO2Mm2KwzyVRqk1dzHYU7pxnWY1YbKOiGT5wEFr8HYdS0AgUdaJyJ2uF1QcxmI\nMKFc1YfnAgMBAAECggEAGOoIVtbKpzb5RgjVSl4RRCapFUpDxKlUyNbapSB4Lpug\nvU51Jj5xAYM+1s5K0aROf3LGtYHRN4cakrpnoT5cVf3gf3qgiE/H2NkUGDAm3CXH\n4/CNXuGFkxKvz84DEeNtvPt9Jp63MCdJl8jhfHZILR7BfuCaED/iOv06RZ4uOyVp\nD2IJiwSntgo9QvUWy1foeBH6UU6ZTJ7/dBroAEKQhZ3oPWa/TLAED83m9yqiqnow\nFLjfMiU0zMkgnkIF92cDrisxfYhx4b5asHhme8alwAGbv+F3rWxmXkiDBgeSsdXe\nuauiXFBIsMe+GpDQEvmkioTjmNgdCAVrUu0XgQqrxQKBgQDsOzRvj4B3qyvX7HAj\nb0aZmnOLqQ2uS90SpSp7QpH3Yssj8seMigWctfrGWHH5/hldma7l9PpU08Zu21X/\nD7MfV28UURayD/oTAV1Grtr8UMhT0x8IUVnLam5UDXXESyiMQ8tpc4UOjnpe5gV6\nJb90afKlzZXkw4zCxlhDmqa32wKBgQDTFmD2AzGB7314pebNza55kGoFXQ3IT2sB\neWoIOFb8wyebFEfVHX+6LBWSLiUbuFA13BivpfgOWqazOl18Obh3xI0WwVlT/N+I\nPj43xyx/NZxEgYcLzyc8DVnMURDjWIAFq8GmL5ovoovss+SxQfW166gfVtLL2+CS\nVHBZijqD5QKBgEiBZ3eyUNjqBbvxSv3lQoMUv9Am5BcSG9mELkTEyu5mOTlgY9UD\n6/MMe9ry/JChaAGtkNvt1APDOE2ALqXpmK3O9T4EIXYnpza8HXf7ZSU6WjI4Q3cX\nGPtxQEm2E+ZatyhOCpnkJfuwyWhlK1sxSNEfT6WKMy6SwppprF+bkP4vAoGAHSVU\n5AMS3ecMgxEdKkOBGMXo7a6ojYTxuHVkP5hP4nyrxkzpkjKNhU46+EEo3If5g0ZN\nnksjUhAQPmULrXBm2RqphH/T7rXWw4AcpST6LuJfHlJoLChBOZh6UqzK0SlSG/ZY\nObMO7g7alSdNp2/9Fk5gm1sopf9JJctE7AgbBkUCgYBX4+p/yUbT6XoRoPQB8ufa\n6sTTO2RYnf8sqwbaXaUgXCRdLFtQMM9E+8T4HSNzGFC7S/G2CoziQNzt/jQhbUNl\n5tYpCe0ZQt6a8gPRDoRhz957nY53SQSFODmp45+hfdNA/BIADmMCXfVrQT/S7v+5\nCMFvIGmK3859o5DDiR/8hg==\n-----END PRIVATE KEY-----\n",
+                          "client_email": "firebase-adminsdk-te6kd@beeper5252022.iam.gserviceaccount.com",
+                          "client_id": "114204415475404288441",
+                          "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                          "token_uri": "https://oauth2.googleapis.com/token",
+                          "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+                          "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-te6kd%40beeper5252022.iam.gserviceaccount.com"
+            }
+        }
+    },
+    "Production": {
+        "user": {
+            "name": "bob.dan2234",
+            "sid_cookie": "s%3AMMBqj0ZhuSOAm6F8P6XBPMU70U9-9g2J.w81oHLqJSDvsOQKg28FLTO544du9knFFHPhMMxHytZ0",
+            "csrf_cookie": "s%3APCbpqFw3EzQ4Pp7j4InXiv86.f0fh%2BMMuNknHL8Ytd%2Bc7cdshSXIh3Z%2BL4wO2AIy9b5M"
+        },
+        "database": {
+            "reference_url": "https://beeper5252022-default-rtdb.firebaseio.com/",
+            "credentials":{
+                          "type": "service_account",
+                          "project_id": "beeper5252022",
+                          "private_key_id": "2022802ce385c5a0dd20a68507114e95c6bf192b",
+                          "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDCyXLHrF3RiZyv\nTUKoxiGR5tej3zuI/UfCLScTOnKG09WzSj2uamiJUI87uYCtcH9nlYsCuAZFbUJf\nhyJkcfY1HYBLGenTg1dg2tDmhaTJZiwPd3dJVoxo4bdcXL7e7OLNHMHevPGoVa/d\noGsst+4lgDWtg9LEGDPC173BIeEajNzMbtaGtuI3c4cuzkjLL/r+mK42ngJNagK3\nA+0TnG32OkQdPzKbFeRWhr3b5BX5v4wgtaPGuQBemcOfInRxkHRQlgR2GjBahR2x\npVOO2Mm2KwzyVRqk1dzHYU7pxnWY1YbKOiGT5wEFr8HYdS0AgUdaJyJ2uF1QcxmI\nMKFc1YfnAgMBAAECggEAGOoIVtbKpzb5RgjVSl4RRCapFUpDxKlUyNbapSB4Lpug\nvU51Jj5xAYM+1s5K0aROf3LGtYHRN4cakrpnoT5cVf3gf3qgiE/H2NkUGDAm3CXH\n4/CNXuGFkxKvz84DEeNtvPt9Jp63MCdJl8jhfHZILR7BfuCaED/iOv06RZ4uOyVp\nD2IJiwSntgo9QvUWy1foeBH6UU6ZTJ7/dBroAEKQhZ3oPWa/TLAED83m9yqiqnow\nFLjfMiU0zMkgnkIF92cDrisxfYhx4b5asHhme8alwAGbv+F3rWxmXkiDBgeSsdXe\nuauiXFBIsMe+GpDQEvmkioTjmNgdCAVrUu0XgQqrxQKBgQDsOzRvj4B3qyvX7HAj\nb0aZmnOLqQ2uS90SpSp7QpH3Yssj8seMigWctfrGWHH5/hldma7l9PpU08Zu21X/\nD7MfV28UURayD/oTAV1Grtr8UMhT0x8IUVnLam5UDXXESyiMQ8tpc4UOjnpe5gV6\nJb90afKlzZXkw4zCxlhDmqa32wKBgQDTFmD2AzGB7314pebNza55kGoFXQ3IT2sB\neWoIOFb8wyebFEfVHX+6LBWSLiUbuFA13BivpfgOWqazOl18Obh3xI0WwVlT/N+I\nPj43xyx/NZxEgYcLzyc8DVnMURDjWIAFq8GmL5ovoovss+SxQfW166gfVtLL2+CS\nVHBZijqD5QKBgEiBZ3eyUNjqBbvxSv3lQoMUv9Am5BcSG9mELkTEyu5mOTlgY9UD\n6/MMe9ry/JChaAGtkNvt1APDOE2ALqXpmK3O9T4EIXYnpza8HXf7ZSU6WjI4Q3cX\nGPtxQEm2E+ZatyhOCpnkJfuwyWhlK1sxSNEfT6WKMy6SwppprF+bkP4vAoGAHSVU\n5AMS3ecMgxEdKkOBGMXo7a6ojYTxuHVkP5hP4nyrxkzpkjKNhU46+EEo3If5g0ZN\nnksjUhAQPmULrXBm2RqphH/T7rXWw4AcpST6LuJfHlJoLChBOZh6UqzK0SlSG/ZY\nObMO7g7alSdNp2/9Fk5gm1sopf9JJctE7AgbBkUCgYBX4+p/yUbT6XoRoPQB8ufa\n6sTTO2RYnf8sqwbaXaUgXCRdLFtQMM9E+8T4HSNzGFC7S/G2CoziQNzt/jQhbUNl\n5tYpCe0ZQt6a8gPRDoRhz957nY53SQSFODmp45+hfdNA/BIADmMCXfVrQT/S7v+5\nCMFvIGmK3859o5DDiR/8hg==\n-----END PRIVATE KEY-----\n",
+                          "client_email": "firebase-adminsdk-te6kd@beeper5252022.iam.gserviceaccount.com",
+                          "client_id": "114204415475404288441",
+                          "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                          "token_uri": "https://oauth2.googleapis.com/token",
+                          "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+                          "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-te6kd%40beeper5252022.iam.gserviceaccount.com"
+            }
+        }
+    }
+}

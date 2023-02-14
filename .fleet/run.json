@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "type": "python",
+            "name": "Core.py",
+            "arguments": ["Core.py"],
+        },
+        {
+            "type": "python",
+            "name": "DatabaseChanger.py",
+            "arguments": ["DatabaseChanger.py"],
+        },
+        {
+            "type": "python",
+            "name": "Scripts.py",
+            "arguments": ["Scripts.py"],
+        },
+    ]
+}
