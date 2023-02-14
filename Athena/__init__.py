@@ -29,6 +29,7 @@ class User:
         self.name = name
         self.phone_number = phone_number
         self.message_time = message_time
+        self.sent = False
 
         if "weather_info" in kwargs:
             self.weather_info = kwargs["weather_info"]
@@ -68,8 +69,8 @@ class UserList:
         weathers = self.database_ref.child("weather")
 
         for person in usernames.get():
-            new_user = User(str(usernames.child(person).get()), str(message_times.child(person).get()),
-                            str(phone_numbers.child(person).get()),
+            new_user = User(str(usernames.child(person).get()), str(phone_numbers.child(person).get()),
+                            str(message_times.child(person).get()),
                             weather_info=weathers.child(person).get())
 
             self.users.append(new_user)

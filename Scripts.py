@@ -2,7 +2,6 @@ import Athena
 import requests
 import time
 import gnews
-import pyshorteners as ps
 
 icons = {
     1000: "🌞🌞🌞",
@@ -55,13 +54,14 @@ icons = {
     128: "❄⚡❄⚡"
 }
 
+
 def joke():
     req = requests.get("https://official-joke-api.appspot.com/jokes/general/random")
 
     setup = req.json()[0].get("setup")
     punchline = req.json()[0].get("punchline")
 
-    return (setup, punchline)
+    return setup, punchline
 
 
 class Weather:
@@ -75,8 +75,8 @@ class Weather:
 
         zipcode = self.user.weather_info["zipcode"]
         request = requests.get(f'http://api.weatherapi.com/v1/forecast.json',
-                               {"key": "016e19390dba4ad5807184556222205", "q": zipcode, "days":1,
-                                "aqi": "no", "alert":"yes"})
+                               {"key": "016e19390dba4ad5807184556222205", "q": zipcode, "days": 1,
+                                "aqi": "no", "alert": "yes"})
 
         content = request.json()
 
@@ -94,13 +94,16 @@ class Weather:
                 message += rf"Overall Forecast: {forecast_day['condition']['text']} {icons[forecast_day['condition']['code']]}\n\n"
             else:
                 funny_joke = joke()
-                message += fr"Sadly we couldn't retrieve the overal forecast for today. :(\n\nHere is a joke in the meantime.\n{funny_joke[0]}\n{funny_joke[1]}\n\n"
+                message += fr"Sadly we couldn't retrieve the overal forecast for today. :(\n\nHere is a joke in the \
+                meantime.\n{funny_joke[0]}\n{funny_joke[1]}\n\n"
 
         else:
             funny_joke = joke()
-            message += fr"Sadly we couldn't retrieve the weather for today. :(\n\nHere is a joke in the meantime.\n{funny_joke[0]}\n{funny_joke[1]}\n\n"
+            message += fr"Sadly we couldn't retrieve the weather for today. :(\n\nHere is a joke in the meantime.\n" \
+                       fr"\n{funny_joke[0]}\n{funny_joke[1]}\n\n"
 
         self.user.message = message
+
 
 class News:
     def __init__(self, user):
@@ -109,10 +112,9 @@ class News:
     def add_message(self):
         news = gnews.GNews(max_results=5)
 
-        shortener = ps.Shortener()
+        self.user.message += r"Top Headlines\n\n"
 
         latest = news.get_top_news()
 
         for article in latest:
-            article['url'] = shortener.tinyurl.short(article['url'])
-            self.user.message += rf"{article['title']}\n{article['url']}\n"
+            self.user.message += rf"{article['title']}\n\n"

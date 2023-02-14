@@ -30,12 +30,29 @@ users = Athena.UserList(apollo, database_reference)
 users.make_user_list()
 print("Made User List")
 
-current_time = time.localtime()
-formatted_time = f"{current_time.tm_hour}:{current_time.tm_min}"
+running = True
+while running:
+    current_time = time.localtime()
 
-for user in users.get_users():
+    if current_time.tm_hour <= 12:
+        hour = "0" + str(current_time.tm_hour)
+    else:
+        hour = current_time.tm_hour
 
-    # if formatted_time == user.message_time:
-    message = Scripts.Weather(user).create_message()
-    Scripts.News(user).add_message()
-    print(user.message)
+    if current_time.tm_min < 10:
+        min = "0" + str(current_time.tm_min)
+    else:
+        min = current_time.tm_min
+
+    formatted_time = f"{hour}:{min}"
+
+    for user in users.get_users():
+
+        if formatted_time == user.message_time:
+            message = Scripts.Weather(user).create_message()
+            Scripts.News(user).add_message()
+
+            if not user.sent:
+                apollo.send_sms(user.phone_number, user.message)
+                user.sent = True
+                print(f"sent {user}")
