@@ -2,9 +2,18 @@
     "configurations": [
         {
             "type": "python",
-            "name": "Alexandria Run",
-            "arguments": ["Alexandria/__init__.py"],
+            "name": "Core.py",
+            "arguments": ["Core.py"],
         },
-
+        {
+            "type": "python",
+            "name": "DatabaseChanger.py",
+            "arguments": ["DatabaseChanger.py"],
+        },
+        {
+            "type": "python",
+            "name": "Scripts.py",
+            "arguments": ["Scripts.py"],
+        },
     ]
 }
