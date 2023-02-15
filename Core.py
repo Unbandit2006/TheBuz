@@ -45,11 +45,11 @@ while running:
         hour = current_time.tm_hour
 
     if current_time.tm_min < 10:
-        min = "0" + str(current_time.tm_min)
+        minutes = "0" + str(current_time.tm_min)
     else:
-        min = current_time.tm_min
+        minutes = current_time.tm_min
 
-    formatted_time = f"{hour}:{min}"
+    formatted_time = f"{hour}:{minutes}"
 
     for user in users.get_users():
 
