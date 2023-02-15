@@ -37,6 +37,7 @@ while running:
 
     if current_time.tm_mday != start_time.tm_mday:
         users.make_user_list()
+        start_time = time.localtime()
         print("Refreshed User List")
 
     if current_time.tm_hour <= 12:
