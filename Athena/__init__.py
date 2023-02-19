@@ -1,5 +1,6 @@
 import pytextnow as ptn
 from firebase_admin import db as firebase_database
+from collections.abc import Callable
 
 """
 A library of knowledge for TheBuz
@@ -76,4 +77,72 @@ class UserList:
             self.users.append(new_user)
 
     def get_users(self):
+        """
+        This is a Function returns the users made by the user list
+
+        Author:
+            Daniel Zheleznov
+        """
         return self.users
+
+    def search(self, number: str):
+        """
+        This is a Function returns the user based on a search number
+
+        Args:
+            number: String = The number to search for in the user list
+
+        Author:
+            Daniel Zheleznov
+        """
+        for person in self.users:
+            if person.phone_number == number:
+                return person
+
+
+class MessageReader:
+    def __init__(self, messenger: ptn.Client):
+        """
+        This is a Class to make a Reader to read messages from the client.
+
+        Args:
+            messenger: ptn.Client = The messenger of the Core Program
+
+        Author:
+            Daniel Zheleznov
+        """
+        self.mesenger = messenger
+        self.messages = {}
+
+    def add_message(self, message: str, action: Callable[[dict], None]):
+        """
+        Adds a message to the message list to then be read and do an action to when the message
+        equals to the recieved messages.
+
+        Args:
+            message: String = The String to be read in the revcieved messages
+            action: Function = The function to be executed when the message equals to the recieved message.
+                SHOULD take in a dict.
+
+        Author:
+            Daniel Zheleznov
+        """
+        self.messages[message] = action
+
+    def read_messages(self):
+        """
+        This function actually reads the mesages and based on the messages list, it actually executes the action
+
+        Author:
+            Daniel Zheleznov
+        """
+        message_info = {}
+
+        for message in self.mesenger.get_unread_messages():
+            message_info["number"] = message.number
+            message_info["message"] = message.content
+
+            if message.content.lower().strip() in self.messages.keys():
+                self.messages[message.content](message_info)
+
+            message.mark_as_read()

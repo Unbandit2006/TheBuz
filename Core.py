@@ -30,6 +30,20 @@ users = Athena.UserList(apollo, database_reference)
 users.make_user_list()
 print("Made User List")
 
+
+# Read Message
+def hello(info):
+    person = users.search(info["number"])
+    apollo.send_sms(info["number"], rf"Hello {person.name}\nI hope you are having a good day. :)")
+
+
+reader = Athena.MessageReader(apollo)
+
+reader.add_message("hello", hello)
+
+print("Made Message Reader")
+
+
 start_time = time.localtime()
 running = True
 while running:
@@ -52,6 +66,7 @@ while running:
 
     formatted_time = f"{hour}:{minutes}"
 
+    # Send Message
     for user in users.get_users():
 
         if formatted_time == user.message_time:
@@ -62,3 +77,6 @@ while running:
                 apollo.send_sms(user.phone_number, user.message)
                 user.sent = True
                 print(f"Sent {user}")
+
+    # Read Message
+    reader.read_messages()
