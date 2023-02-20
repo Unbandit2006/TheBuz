@@ -41,21 +41,27 @@ def refresh(info):
     person = users.search(info["number"])
 
     if info["message"] == "refresh weather":
-        ...
+        Scripts.Weather(person).create_message()
+        apollo.send_sms(person.phone_number, person.message)
+        print(f"Sent weather to {person.name}")
 
     elif info["message"] == "refresh news":
         Scripts.News(person).create_message()
         apollo.send_sms(person.phone_number, person.message)
-        print(f"Sent weather to {person.name}")
+        print(f"Sent news to {person.name}")
 
     else:
-        ...
+        Scripts.Weather(person).create_message()
+        Scripts.News(person).add_message()
+        print(f"Sent refresher to {person.name}")
 
 
 reader = Athena.MessageReader(apollo)
 
 reader.add_message("hello", hello)
 reader.add_message("refresh news", refresh)
+reader.add_message("refresh weather", refresh)
+reader.add_message("refresh", refresh)
 
 print("Made Message Reader")
 
