@@ -37,9 +37,25 @@ def hello(info):
     apollo.send_sms(info["number"], rf"Hello {person.name}\nI hope you are having a good day. :)")
 
 
+def refresh(info):
+    person = users.search(info["number"])
+
+    if info["message"] == "refresh weather":
+        ...
+
+    elif info["message"] == "refresh news":
+        Scripts.News(person).create_message()
+        apollo.send_sms(person.phone_number, person.message)
+        print(f"Sent weather to {person.name}")
+
+    else:
+        ...
+
+
 reader = Athena.MessageReader(apollo)
 
 reader.add_message("hello", hello)
+reader.add_message("refresh news", refresh)
 
 print("Made Message Reader")
 
@@ -47,6 +63,8 @@ print("Made Message Reader")
 start_time = time.localtime()
 running = True
 while running:
+    apollo.auth_reset(config["user"]["sid_cookie"], config["user"]["csrf_cookie"])
+
     current_time = time.localtime()
 
     if current_time.tm_mday != start_time.tm_mday:

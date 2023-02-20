@@ -127,7 +127,7 @@ class MessageReader:
         Author:
             Daniel Zheleznov
         """
-        self.messages[message] = action
+        self.messages[message.lower().strip()] = action
 
     def read_messages(self):
         """
@@ -140,9 +140,9 @@ class MessageReader:
 
         for message in self.mesenger.get_unread_messages():
             message_info["number"] = message.number
-            message_info["message"] = message.content
+            message_info["message"] = message.content.lower().strip()
 
             if message.content.lower().strip() in self.messages.keys():
-                self.messages[message.content](message_info)
+                self.messages[message.content.lower().strip()](message_info)
 
             message.mark_as_read()
