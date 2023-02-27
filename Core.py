@@ -34,7 +34,11 @@ print("Made User List")
 # Read Message
 def hello(info):
     person = users.search(info["number"])
-    apollo.send_sms(info["number"], rf"Hello {person.name}\nI hope you are having a good day. :)")
+
+    try:
+        apollo.send_sms(info["number"], rf"Hello {person.name}\nI hope you are having a good day. :)")
+    except Exception as e:
+        print(str(e) + " Error")
 
 
 def refresh(info):
@@ -42,18 +46,28 @@ def refresh(info):
 
     if info["message"] == "refresh weather":
         Scripts.Weather(person).create_message()
-        apollo.send_sms(person.phone_number, person.message)
-        print(f"Sent weather to {person.name}")
+        try:
+            apollo.send_sms(person.phone_number, person.message)
+            print(f"Sent weather to {person.name}")
+        except Exception as e:
+            print(str(e) + " Error")
 
     elif info["message"] == "refresh news":
         Scripts.News(person).create_message()
-        apollo.send_sms(person.phone_number, person.message)
-        print(f"Sent news to {person.name}")
+        try:
+            apollo.send_sms(person.phone_number, person.message)
+            print(f"Sent news to {person.name}")
+        except Exception as e:
+            print(str(e) + " Error")
 
     else:
         Scripts.Weather(person).create_message()
         Scripts.News(person).add_message()
-        print(f"Sent refresher to {person.name}")
+        try:
+            apollo.send_sms(person.phone_number, person.message)
+            print(f"Sent refresher to {person.name}")
+        except Exception as e:
+            print(str(e) + " Error")
 
 
 reader = Athena.MessageReader(apollo)
@@ -65,11 +79,13 @@ reader.add_message("refresh", refresh)
 
 print("Made Message Reader")
 
-
 start_time = time.localtime()
 running = True
 while running:
-    apollo.auth_reset(config["user"]["sid_cookie"], config["user"]["csrf_cookie"])
+    try:
+        apollo.auth_reset(config["user"]["sid_cookie"], config["user"]["csrf_cookie"])
+    except Exception as e:
+        print(str(e) + " Error")
 
     current_time = time.localtime()
 
@@ -98,9 +114,18 @@ while running:
             Scripts.News(user).add_message()
 
             if not user.sent:
-                apollo.send_sms(user.phone_number, user.message)
+                try:
+                    apollo.send_sms(user.phone_number, user.message)
+                    print(f"Sent {user}")
+                except Exception as e:
+                    print(str(e) + " Error")
+
                 user.sent = True
-                print(f"Sent {user}")
+                try:
+                    apollo.auth_reset(config["user"]["sid_cookie"], config["user"]["csrf_cookie"])
+                except Exception as e:
+                    print(str(e) + " Error")
+                print("Apollo has been reset")
 
     # Read Message
     reader.read_messages()

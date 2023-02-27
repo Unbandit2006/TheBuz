@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+          "type": "python",
+          "name": "web",
+          "arguments": ["main.py"],
+        },
+
+    ]
+}

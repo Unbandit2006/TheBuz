@@ -138,11 +138,15 @@ class MessageReader:
         """
         message_info = {}
 
-        for message in self.mesenger.get_unread_messages():
-            message_info["number"] = message.number
-            message_info["message"] = message.content.lower().strip()
+        try:
+            for message in self.mesenger.get_unread_messages():
+                message_info["number"] = message.number
+                message_info["message"] = message.content.lower().strip()
 
-            if message.content.lower().strip() in self.messages.keys():
-                self.messages[message.content.lower().strip()](message_info)
+                if message.content.lower().strip() in self.messages.keys():
+                    self.messages[message.content.lower().strip()](message_info)
 
-            message.mark_as_read()
+                message.mark_as_read()
+
+        except Exception as e:
+            print(str(e) + " Error")

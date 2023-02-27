@@ -69,18 +69,23 @@ class Weather:
         self.user = user
 
     def create_message(self):
+        global content, current_weather
         actual_time = time.strftime("%A. %B, %d %Y")
         formatted_time = rf"{actual_time}\n\n"
         message = rf"Hello {self.user.name}.\nToday is {formatted_time}"
 
-        zipcode = self.user.weather_info["zipcode"]
-        request = requests.get(f'http://api.weatherapi.com/v1/forecast.json',
+        try:
+            zipcode = self.user.weather_info["zipcode"]
+            request = requests.get(f'http://api.weatherapi.com/v1/forecast.json',
                                {"key": "016e19390dba4ad5807184556222205", "q": zipcode, "days": 1,
                                 "aqi": "no", "alert": "yes"})
 
-        content = request.json()
+            content = request.json()
 
-        current_weather = content.get("current", False)
+            current_weather = content.get("current", False)
+
+        except Exception as e:
+            print(str(e) + "Error")
 
         try:
             forecast_day = content.get("forecast", {}).get("forecastday", ())[0]["day"]
