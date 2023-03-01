@@ -125,6 +125,7 @@ class Logger:
         try:
             with open(self.filename, "x") as file:
                 file.write("Date|Time|Type|Message\n")
+                file.close()
             
         except Exception as e:
             pass
@@ -141,7 +142,8 @@ class Logger:
         try:
             with open(self.filename, "a") as file:
                 file.write(f"{clock.tm_year}/{clock.tm_mon}/{clock.tm_mday}|{clock.tm_hour}:{clock.tm_min}|{status}|{message}\n")
-        
+                file.close()
+
             print(f"{clock.tm_year}/{clock.tm_mon}/{clock.tm_mday}|{clock.tm_hour}:{clock.tm_min}|{status}|{message}")
         except Exception as e:
             print("ERROR WITH LOGGER FILE NOT MADE")
