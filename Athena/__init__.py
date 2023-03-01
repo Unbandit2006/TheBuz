@@ -1,6 +1,7 @@
 import pytextnow as ptn
 from firebase_admin import db as firebase_database
 from collections.abc import Callable
+import time
 
 """
 A library of knowledge for TheBuz
@@ -100,8 +101,54 @@ class UserList:
                 return person
 
 
+class Logger:
+    def __init__(self):
+        """
+        This is a Class to make a Logger.
+
+        Author:
+            Daniel Zheleznov
+        """
+        self.filename = ""
+
+    def start_logger(self):
+        """
+        This is a function that will intialize everything.
+
+        Author:
+            Daniel Zheleznov
+        """
+        clock = time.localtime()
+
+        self.filename = f"logs\\{clock.tm_year}_{clock.tm_mon}_{clock.tm_mday}.log"
+
+        try:
+            with open(self.filename, "x") as file:
+                file.write("Date|Time|Type|Message\n")
+            
+        except Exception as e:
+            pass
+    
+    def add_message(self, message:str, status:str):
+        """
+        This is a function that will apend message and the type of log to the file
+
+        Author:
+            Daniel Zheleznov
+        """
+        clock = time.localtime()
+
+        try:
+            with open(self.filename, "a") as file:
+                file.write(f"{clock.tm_year}/{clock.tm_mon}/{clock.tm_mday}|{clock.tm_hour}:{clock.tm_min}|{status}|{message}\n")
+        
+            print(f"{clock.tm_year}/{clock.tm_mon}/{clock.tm_mday}|{clock.tm_hour}:{clock.tm_min}|{status}|{message}")
+        except Exception as e:
+            print("ERROR WITH LOGGER FILE NOT MADE")
+
+
 class MessageReader:
-    def __init__(self, messenger: ptn.Client):
+    def __init__(self, messenger: ptn.Client, logger: Logger):
         """
         This is a Class to make a Reader to read messages from the client.
 
@@ -113,6 +160,7 @@ class MessageReader:
         """
         self.mesenger = messenger
         self.messages = {}
+        self.logger = logger
 
     def add_message(self, message: str, action: Callable[[dict], None]):
         """
@@ -149,4 +197,5 @@ class MessageReader:
                 message.mark_as_read()
 
         except Exception as e:
-            print(str(e) + " Error")
+            self.logger.add_message(e, "Error")
+

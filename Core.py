@@ -12,23 +12,27 @@ mode = "Production"
 with open("Configuration.json", "r") as file:
     config = json.load(file)[mode]
 
+# Logger
+chronos_log = Athena.Logger()
+chronos_log.start_logger()
+
 # PyTextNow Client Creation
 apollo = ptn.Client(config["user"]["name"], config["user"]["sid_cookie"], config["user"]["csrf_cookie"])
-print("Initalized Client")
+chronos_log.add_message("Initialized Client", "Initialization")
 
 # Firebase Client Credentials
 cred = credentials.Certificate(config["database"]["credentials"])
 
 # Firebase Client Creation
 connection = firebase.initialize_app(cred, name="TheBuz")
-print("Initalized Database Connection")
+chronos_log.add_message("Initialized Database Connection", "Initialization")
 
 # Firebase Client Reference
 database_reference = database.reference("/", connection, config["database"]["reference_url"])
 
 users = Athena.UserList(apollo, database_reference)
 users.make_user_list()
-print("Made User List")
+chronos_log.add_message("Initialized User List", "Initialization")
 
 
 # Read Message
@@ -38,7 +42,7 @@ def hello(info):
     try:
         apollo.send_sms(info["number"], rf"Hello {person.name}\nI hope you are having a good day. :)")
     except Exception as e:
-        print(str(e) + " Error")
+        chronos_log.add_message(str(e), "Error")
 
 
 def refresh(info):
@@ -48,51 +52,53 @@ def refresh(info):
         Scripts.Weather(person).create_message()
         try:
             apollo.send_sms(person.phone_number, person.message)
-            print(f"Sent weather to {person.name}")
+            chronos_log.add_message(f"Send weather to {person.name}", "Sent")
         except Exception as e:
-            print(str(e) + " Error")
+            chronos_log.add_message(str(e), "Error")
 
     elif info["message"] == "refresh news":
         Scripts.News(person).create_message()
         try:
             apollo.send_sms(person.phone_number, person.message)
-            print(f"Sent news to {person.name}")
+            chronos_log.add_message(f"Sent news to {person.name}", "Sent")
         except Exception as e:
-            print(str(e) + " Error")
+            chronos_log.add_message(str(e), "Error")
 
     else:
         Scripts.Weather(person).create_message()
         Scripts.News(person).add_message()
         try:
             apollo.send_sms(person.phone_number, person.message)
-            print(f"Sent refresher to {person.name}")
+            chronos_log.add_message(f"Sent refresher to {person.name}", "Sent")
         except Exception as e:
-            print(str(e) + " Error")
+            chronos_log.add_message(str(e), "Error")
 
 
-reader = Athena.MessageReader(apollo)
+reader = Athena.MessageReader(apollo, chronos_log)
 
 reader.add_message("hello", hello)
 reader.add_message("refresh news", refresh)
 reader.add_message("refresh weather", refresh)
 reader.add_message("refresh", refresh)
 
-print("Made Message Reader")
+chronos_log.add_message("Initialized Message Reader", "Initialization")
 
 start_time = time.localtime()
 running = True
 while running:
+    chronos_log.start_logger()
+
     try:
         apollo.auth_reset(config["user"]["sid_cookie"], config["user"]["csrf_cookie"])
     except Exception as e:
-        print(str(e) + " Error")
+        chronos_log.add_message(str(e), "Error")
 
     current_time = time.localtime()
 
     if current_time.tm_mday != start_time.tm_mday:
         users.make_user_list()
         start_time = time.localtime()
-        print("Refreshed User List")
+        chronos_log.add_message("Refreshed User List", "Refreshed")
 
     if current_time.tm_hour <= 12:
         hour = "0" + str(current_time.tm_hour)
@@ -116,16 +122,16 @@ while running:
             if not user.sent:
                 try:
                     apollo.send_sms(user.phone_number, user.message)
-                    print(f"Sent {user}")
+                    chronos_log.add_message(f"Sent to {user}", "Sent")
                 except Exception as e:
-                    print(str(e) + " Error")
+                    chronos_log.add_message(str(e), "Error")
 
                 user.sent = True
                 try:
                     apollo.auth_reset(config["user"]["sid_cookie"], config["user"]["csrf_cookie"])
                 except Exception as e:
-                    print(str(e) + " Error")
-                print("Apollo has been reset")
+                    chronos_log.add_message(str(e), "Error")
+                chronos_log.add_message("Apollo has be refreshed", "Refreshed")
 
     # Read Message
     reader.read_messages()
