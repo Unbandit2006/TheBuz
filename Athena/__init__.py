@@ -120,7 +120,7 @@ class Logger:
         """
         clock = time.localtime()
 
-        self.filename = f"logs\\{clock.tm_year}_{clock.tm_mon}_{clock.tm_mday}.log"
+        self.filename = f"logs/{clock.tm_year}_{clock.tm_mon}_{clock.tm_mday}.log"
 
         try:
             with open(self.filename, "x") as file:
@@ -128,7 +128,7 @@ class Logger:
                 file.close()
             
         except Exception as e:
-            print(f"Error with creating a file {e}")
+            pass
     
     def add_message(self, message:str, status:str):
         """
