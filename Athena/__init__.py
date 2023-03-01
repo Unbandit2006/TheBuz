@@ -128,7 +128,7 @@ class Logger:
                 file.close()
             
         except Exception as e:
-            pass
+            print(f"Error with creating a file {e}")
     
     def add_message(self, message:str, status:str):
         """
