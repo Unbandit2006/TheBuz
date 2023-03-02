@@ -1,0 +1,31 @@
+Date|Time|Type|Message
+2023/2/28|20:34|Initialization|Initialized Client
+2023/2/28|20:34|Initialization|Initialized Database Connection
+2023/2/28|20:34|Initialization|Initialized User List
+2023/2/28|20:34|Initialization|Initialized Message Reader
+2023/2/28|20:34|Error|local variable 'min_value' referenced before assignment
+2023/2/28|20:37|Initialization|Initialized Client
+2023/2/28|20:37|Initialization|Initialized Database Connection
+2023/2/28|20:37|Initialization|Initialized User List
+2023/2/28|20:37|Initialization|Initialized Message Reader
+2023/2/28|20:37|Error|name 'min_value' is not defined
+2023/2/28|20:37|Error|name 'min_value' is not defined
+2023/2/28|20:41|Initialization|Initialized Client
+2023/2/28|20:41|Initialization|Initialized Database Connection
+2023/2/28|20:41|Initialization|Initialized User List
+2023/2/28|20:41|Initialization|Initialized Message Reader
+2023/2/28|20:41|Error|Could not send message. server returned a Client error. Request Failed. Try resetting your authentication with client.auth_reset() 
+Status Code: 400
+2023/2/28|20:42|Error|Could not send message. server returned a Client error. Request Failed. Try resetting your authentication with client.auth_reset() 
+Status Code: 400
+2023/2/28|20:42|Initialization|Initialized Client
+2023/2/28|20:42|Initialization|Initialized Database Connection
+2023/2/28|20:42|Initialization|Initialized User List
+2023/2/28|20:42|Initialization|Initialized Message Reader
+2023/2/28|20:42|Error|Could not send message. server returned a Client error. Request Failed. Try resetting your authentication with client.auth_reset() 
+Status Code: 400
+2023/2/28|20:44|Initialization|Initialized Client
+2023/2/28|20:44|Initialization|Initialized Database Connection
+2023/2/28|20:44|Initialization|Initialized User List
+2023/2/28|20:44|Initialization|Initialized Message Reader
+2023/2/28|20:45|Sent|Send weather to Daniel Zheleznov
