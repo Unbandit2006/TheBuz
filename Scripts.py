@@ -69,7 +69,7 @@ class Weather:
         self.user = user
 
     def create_message(self):
-        global content, current_weather
+        global content, current_weather, min_value, max_value, percentage_rain, percentage_snow
         actual_time = time.strftime("%A. %B, %d %Y")
         formatted_time = rf"{actual_time}\n\n"
         message = rf"Hello {self.user.name}.\nToday is {formatted_time}"
@@ -83,6 +83,9 @@ class Weather:
             content = request.json()
 
             current_weather = content.get("current", False)
+            min_value = content.get("forecast", {}).get("forecastday", ())[0].get("day", {}).get("mintemp_f", "N/A")
+            max_value = content.get("forecast", {}).get("forecastday", ())[0].get("day", {}).get("mintemp_c", "N/A")
+            percentage_rain = content.get("forecast", {})
 
         except Exception as e:
             print(str(e) + "Error")
@@ -93,10 +96,10 @@ class Weather:
             forecast_day = False
 
         if current_weather != False:
-            message += rf"It currently Feels Like: {current_weather['feelslike_f']} ℉\n"
+            message += rf"It currently Feels Like: {current_weather['feelslike_f']} ℉"
 
             if forecast_day != False:
-                message += rf"Overall Forecast: {forecast_day['condition']['text']} {icons[forecast_day['condition']['code']]}\n\n"
+                message += rf"Overall Forecast: {forecast_day['condition']['text']} {icons[forecast_day['condition']['code']]}\nMin. Temperature: {min_value} ℉\nMax. Temperature: {max_value} ℉\n"
             else:
                 funny_joke = joke()
                 message += fr"Sadly we couldn't retrieve the overal forecast for today. :(\n\nHere is a joke in the \
