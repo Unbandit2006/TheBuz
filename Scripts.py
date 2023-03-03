@@ -96,7 +96,7 @@ class Weather:
             forecast_day = False
 
         if current_weather != False:
-            message += rf"It currently Feels Like: {current_weather['feelslike_f']} ℉"
+            message += rf"It currently Feels Like: {current_weather['feelslike_f']} ℉\n"
 
             if forecast_day != False:
                 message += rf"Overall Forecast: {forecast_day['condition']['text']} {icons[forecast_day['condition']['code']]}\nMin. Temperature: {min_value} ℉\nMax. Temperature: {max_value} ℉\n"

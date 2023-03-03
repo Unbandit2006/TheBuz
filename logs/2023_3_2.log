@@ -1,2 +1,13 @@
 Date|Time|Type|Message
 2023/3/2|0:0|Refreshed|Refreshed User List
+2023/3/2|16:46|Initialization|Initialized Client
+2023/3/2|16:46|Initialization|Initialized Database Connection
+2023/3/2|16:47|Initialization|Initialized User List
+2023/3/2|16:47|Initialization|Initialized Message Reader
+2023/3/2|16:47|Sent|Sent refresher to Daniel Zheleznov
+2023/3/2|16:50|Initialization|Initialized Client
+2023/3/2|16:50|Initialization|Initialized Database Connection
+2023/3/2|16:50|Initialization|Initialized User List
+2023/3/2|16:50|Initialization|Initialized Message Reader
+2023/3/2|16:54|Sent|Sent refresher to Daniel Zheleznov
+2023/3/2|17:19|Error|HTTPSConnectionPool(host='www.textnow.com', port=443): Max retries exceeded with url: /messaging (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 alert handshake failure (_ssl.c:997)')))
