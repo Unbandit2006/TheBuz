@@ -111,7 +111,6 @@ class Weather:
                        fr"\n{funny_joke[0]}\n{funny_joke[1]}\n\n"
 
         self.user.message = message
-        print(len(self.user.message))
 
 class News:
     def __init__(self, user):

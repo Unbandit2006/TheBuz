@@ -66,7 +66,7 @@ def refresh(info):
 
     else:
         Scripts.Weather(person).create_message()
-        Scripts.News(person).add_message()
+        # Scripts.News(person).add_message()
         try:
             apollo.send_sms(person.phone_number, person.message)
             chronos_log.add_message(f"Sent refresher to {person.name}", "Sent")
@@ -77,7 +77,7 @@ def refresh(info):
 reader = Athena.MessageReader(apollo, chronos_log)
 
 reader.add_message("hello", hello)
-reader.add_message("refresh news", refresh)
+# reader.add_message("refresh news", refresh)
 reader.add_message("refresh weather", refresh)
 reader.add_message("refresh", refresh)
 
