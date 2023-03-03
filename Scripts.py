@@ -111,14 +111,14 @@ class Weather:
                        fr"\n{funny_joke[0]}\n{funny_joke[1]}\n\n"
 
         self.user.message = message
-
+        print(len(self.user.message))
 
 class News:
     def __init__(self, user):
         self.user = user
 
     def create_message(self):
-        news = gnews.GNews(max_results=5)
+        news = gnews.GNews(max_results=4)
 
         self.user.message = r"Top Headlines\n\n"
 
@@ -128,7 +128,7 @@ class News:
             self.user.message += rf"{article['title']}\n\n"
 
     def add_message(self):
-        news = gnews.GNews(max_results=5)
+        news = gnews.GNews(max_results=4)
 
         self.user.message += r"Top Headlines\n\n"
 
