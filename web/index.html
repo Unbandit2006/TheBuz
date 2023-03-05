@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap"rel="stylesheet">
+    <title>TheBuz - Home</title>
+</head>
+
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        /* min-height: 100vh; */
+        /* background-image: linear-gradient(0deg, hsla(299, 75%, 67%, 1) 0%, hsla(285, 57%, 58%, 1) 23%, hsla(270, 46%, 49%, 1) 38%, hsla(247, 57%, 37%, 1) 63%, hsla(232, 88%, 27%, 1) 89%); */
+        background-color: black;
+    }
+
+    .down-arrow {
+        text-align: center;
+    }
+
+    .arrow {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        border-top: 2px solid #cacaca;
+        border-right: 2px solid #cacaca;
+    }
+    .arrow-bottom {
+        transform: rotate(135deg);
+    }
+    .arrow:hover {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        border-top: 2px solid rgb(255, 255, 255);
+        border-right: 2px solid rgb(255, 255, 255);
+    }
+
+
+    .main-title-div {
+        /* margin: x; */
+        margin-top: 300px;
+        margin-bottom: 200px;
+    }
+
+    .main-title {
+        text-align: center;
+        -webkit-text-fill-color: transparent;
+        font-size: 60px;
+        font-family: 'Fira Sans', sans-serif;
+        background: linear-gradient(270deg, hsla(299, 75%, 67%, 1) 0%, hsla(285, 57%, 58%, 1) 23%, hsla(270, 46%, 49%, 1) 38%, hsla(247, 57%, 37%, 1) 63%, hsla(232, 88%, 27%, 1) 89%);
+        background-clip: text;
+    }
+
+    #main-link {
+        font-family: 'Fira Sans', sans-serif;
+        font-size: 30px;
+        color: #d2d2d2;
+    }
+
+    .nav {
+        text-align: center;
+    }
+
+    .nav a:link, a:visited, a:active {
+        box-sizing: content-box;
+        text-decoration: none;
+        color: #cacaca;
+        width: 200px;
+        font-size: 20px;
+        display: inline-block;
+        text-align: center;
+        line-height: 60px;
+        font-family: 'Fira Sans', sans-serif;
+        border-bottom: 2px hidden;
+    }
+
+    .nav a:hover {
+        line-height: 60px;
+        font-weight: bold;
+        border-bottom: rgb(255, 255, 255);
+        font-family: 'Fira Sans', sans-serif;
+        /* border-bottom: 2px white ; */
+        
+    }
+</style>
+
+<body>
+    <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/about">About us</a>
+        <a href="/" id="main-link">TheBuz</a>
+        <a href="/signup">Signup</a>
+        <a href="/login">Login</a>
+    </nav>
+
+    <div class="main-title-div">
+        <h1 class="main-title">TheBuz</h1>
+    </div>
+
+    <div class="down-arrow">
+        <li><span class="arrow arrow-bottom"></span></li>
+    </div>
+</body>
+</html>
