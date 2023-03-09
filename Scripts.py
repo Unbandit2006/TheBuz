@@ -84,7 +84,7 @@ class Weather:
 
             current_weather = content.get("current", False)
             min_value = content.get("forecast", {}).get("forecastday", ())[0].get("day", {}).get("mintemp_f", "N/A")
-            max_value = content.get("forecast", {}).get("forecastday", ())[0].get("day", {}).get("mintemp_c", "N/A")
+            max_value = content.get("forecast", {}).get("forecastday", ())[0].get("day", {}).get("maxtemp_f", "N/A")
             percentage_rain = content.get("forecast", {})
 
         except Exception as e:
@@ -96,7 +96,7 @@ class Weather:
             forecast_day = False
 
         if current_weather != False:
-            message += rf"It currently Feels Like: {current_weather['feelslike_f']} ℉\n"
+            message += rf"It currently feels like: {current_weather['feelslike_f']} ℉\n"
 
             if forecast_day != False:
                 message += rf"Overall Forecast: {forecast_day['condition']['text']} {icons[forecast_day['condition']['code']]}\nMin. Temperature: {min_value} ℉\nMax. Temperature: {max_value} ℉\n"
