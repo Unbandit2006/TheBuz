@@ -49,7 +49,7 @@ def refresh(info):
     person = users.search(info["number"])
 
     if info["message"] == "refresh weather":
-        Scripts.Weather(person).create_message()
+        Scripts.Weather(person, chronos_log).create_message()
         try:
             apollo.send_sms(person.phone_number, person.message)
             chronos_log.add_message(f"Send weather to {person.name}", "Sent")
@@ -57,7 +57,7 @@ def refresh(info):
             chronos_log.add_message(str(e), "Error")
 
     elif info["message"] == "refresh news":
-        Scripts.News(person).create_message()
+        Scripts.News(person, chronos_log).create_message()
         try:
             apollo.send_sms(person.phone_number, person.message)
             chronos_log.add_message(f"Sent news to {person.name}", "Sent")
@@ -65,7 +65,7 @@ def refresh(info):
             chronos_log.add_message(str(e), "Error")
 
     else:
-        Scripts.Weather(person).create_message()
+        Scripts.Weather(person, chronos_log).create_message()
         # Scripts.News(person).add_message()
         try:
             apollo.send_sms(person.phone_number, person.message)
@@ -116,7 +116,7 @@ while running:
     for user in users.get_users():
 
         if formatted_time == user.message_time:
-            message = Scripts.Weather(user).create_message()
+            message = Scripts.Weather(user, chronos_log).create_message()
             Scripts.News(user).add_message()
 
             if not user.sent:

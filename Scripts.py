@@ -4,54 +4,54 @@ import time
 import gnews
 
 icons = {
-    1000: "🌞🌞🌞",
-    1003: "🌤🌤🌤",
+    1000: "🌞🌞",
+    1003: "🌤🌤",
     1006: "☁☁",
-    1009: "☁☁☁",
-    1030: "🌫🌫🌫",
+    1009: "☁☁",
+    1030: "🌫🌫",
     1063: "🌧🌧",
     1066: "❄❄",
     1069: "🌧🧊",
     1072: "🌨🌨",
     1087: "⛈⛈",
     1114: "🌬❄",
-    1117: "🌨🌨🌨",
-    1135: "🌁🌁🌁",
+    1117: "🌨🌨",
+    1135: "🌁🌁",
     1147: "❄🌁",
     1150: "🌧🌧",
     1153: "🌧",
     1168: "🥶🌧",
-    1171: "🥶🌧🌧",
+    1171: "🥶🌧",
     1180: "🌧",
     1183: "🌧",
     1186: "🌧🌧",
     1189: "🌧🌧",
-    1192: "🌧🌧🌧",
-    1195: "🌧🌧🌧",
+    1192: "🌧🌧",
+    1195: "🌧🌧",
     1198: "🥶🌧",
-    1201: "🥶🌧🌧",
+    1201: "🥶🌧",
     1204: "🌧🧊",
-    1207: "🌧🧊🌧🧊",
+    1207: "🌧🧊",
     1210: "❄",
     1213: "❄",
     1216: "❄❄",
     1219: "❄❄",
-    1222: "❄❄❄",
+    1222: "❄❄",
     1225: "❄",
     1237: "🧊",
     1240: "🌧",
     1243: "🌧🌧",
-    1246: "🌧🌧🌧",
+    1246: "🌧🌧",
     1249: "🧊🌧",
-    1252: "🧊🌧🌧",
+    1252: "🧊🌧",
     1255: "🌨",
-    1258: "🌨🌨🌨",
+    1258: "🌨🌨",
     1261: "🧊",
-    1264: "🧊🧊🧊",
+    1264: "🧊🧊",
     1273: "⛈",
     1276: "⛈⛈",
     1279: "❄⚡",
-    128: "❄⚡❄⚡"
+    128: "❄⚡"
 }
 
 
@@ -65,8 +65,9 @@ def joke():
 
 
 class Weather:
-    def __init__(self, user: Athena.User):
+    def __init__(self, user: Athena.User, logger: Athena.Logger):
         self.user = user
+        self.logger = logger
 
     def create_message(self):
         global content, current_weather, min_value, max_value, percentage_rain, percentage_snow
@@ -74,41 +75,46 @@ class Weather:
         formatted_time = rf"{actual_time}\n\n"
         message = rf"Hello {self.user.name}.\nToday is {formatted_time}"
 
-        try:
-            zipcode = self.user.weather_info["zipcode"]
-            request = requests.get(f'http://api.weatherapi.com/v1/forecast.json',
-                               {"key": "016e19390dba4ad5807184556222205", "q": zipcode, "days": 1,
-                                "aqi": "no", "alert": "yes"})
+        current_weather = ""
+        overall_weather = ""
+        max_value = ""
+        min_value = ""
+        percentage_rain = ""
+        percentage_snow = ""
 
+        try:
+            user_zipcode = self.user.weather_info["zipcode"]
+
+            request = requests.get(f'http://api.weatherapi.com/v1/forecast.json',
+                               {"key": "016e19390dba4ad5807184556222205", "q": user_zipcode, "days": 1,
+                                "aqi": "no", "alert": "yes"})
+            
             content = request.json()
 
-            current_weather = content.get("current", False)
-            min_value = content.get("forecast", {}).get("forecastday", ())[0].get("day", {}).get("mintemp_f", "N/A")
+            current_weather = content.get("current", {}).get("feelslike_f", "N/A")
+            overall_weather = content.get("forecast", {}).get("forecastday", ())[0]["day"]["condition"]
+            overall_icon = icons[overall_weather['code']] 
             max_value = content.get("forecast", {}).get("forecastday", ())[0].get("day", {}).get("maxtemp_f", "N/A")
-            percentage_rain = content.get("forecast", {})
+            min_value = content.get("forecast", {}).get("forecastday", ())[0].get("day", {}).get("mintemp_f", "N/A")
+            percentage_rain = content.get("forecast", {}).get("forecastday", ())[0].get("day", {}).get("daily_chance_of_rain", "N/A")
+            percentage_snow = content.get("forecast", {}).get("forecastday", ())[0].get("day", {}).get("daily_chance_of_snow", "N/A")
+
+
+            message += rf"It currently feels like: {current_weather} °F\nOverall forecast: {overall_weather['text']} {overall_icon}\n"\
+                        rf"Max. temperature: {max_value} °F\nMin. temperature: {min_value} °F\n"
+            
+            if percentage_rain != 0:
+                message += rf"There is a {percentage_rain}% chance of rain today\nDon't forget to bring your Umbrella ☂\n\n"
+            
+            elif percentage_snow != 0:
+                message += rf"There is a {percentage_snow}% chance of snow today\nDon't forget to bring your Umbrella ☂\nAnd dress warm.\n\n"
 
         except Exception as e:
-            print(str(e) + "Error")
+            self.logger.add_message(e, "Error Weather")
 
-        try:
-            forecast_day = content.get("forecast", {}).get("forecastday", ())[0]["day"]
-        except IndexError as e:
-            forecast_day = False
-
-        if current_weather != False:
-            message += rf"It currently feels like: {current_weather['feelslike_f']} ℉\n"
-
-            if forecast_day != False:
-                message += rf"Overall Forecast: {forecast_day['condition']['text']} {icons[forecast_day['condition']['code']]}\nMin. Temperature: {min_value} ℉\nMax. Temperature: {max_value} ℉\n"
-            else:
-                funny_joke = joke()
-                message += fr"Sadly we couldn't retrieve the overal forecast for today. :(\n\nHere is a joke in the \
-                meantime.\n{funny_joke[0]}\n{funny_joke[1]}\n\n"
-
-        else:
             funny_joke = joke()
-            message += fr"Sadly we couldn't retrieve the weather for today. :(\n\nHere is a joke in the meantime.\n" \
-                       fr"\n{funny_joke[0]}\n{funny_joke[1]}\n\n"
+
+            message += rf"Sadly we couldn't retrieve the weather for today. :(\nHere is a joke in the meantime.\n{funny_joke[0]}\n{funny_joke[1]}\n\n"
 
         self.user.message = message
 
