@@ -1,1 +1,11 @@
-7:30|Error|Handsome||7:31|Success|Good-lookin
+Date|Time|Type|Message
+2023/3/1|23:15|Initialization|Initialized Client
+2023/3/1|23:15|Initialization|Initialized Database Connection
+2023/3/1|23:16|Initialization|Initialized User List
+2023/3/1|23:16|Initialization|Initialized Message Reader
+2023/3/1|23:16|Sent|Send weather to Daniel Zheleznov
+2023/3/1|23:17|Initialization|Initialized Client
+2023/3/1|23:17|Initialization|Initialized Database Connection
+2023/3/1|23:17|Initialization|Initialized User List
+2023/3/1|23:17|Initialization|Initialized Message Reader
+2023/3/1|23:17|Sent|Send weather to Daniel Zheleznov

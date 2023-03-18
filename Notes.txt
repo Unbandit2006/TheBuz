@@ -1,5 +1,0 @@
-General Notes
-
-Needs to extensible in the sense of quickly adding code that doesn't break the system.
-
-Make a core program that runs everything and make it extensible.
