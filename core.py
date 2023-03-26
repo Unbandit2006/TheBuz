@@ -6,6 +6,7 @@ import Buzzers
 myReader = TheBuz.Reader("Config.json")
 myDB = TheBuz.Database(myReader)
 myUsers = myDB.get_users()
+myMessenger = TheBuz.Messenger()
 
 oldTime = time.localtime()
 
@@ -38,7 +39,6 @@ while running:
                 if user.get("sent") == False:
                     message = Buzzers.Weather.add_to_message(user.get("extensions").get("Weather"))
                 
-                    messenger = TheBuz.Messenger()
-                    messenger.send_message(user.get("number"), message)
+                    myMessenger.send_message(user.get("number"), message)
                     user["sent"] = True
 

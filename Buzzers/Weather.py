@@ -57,25 +57,25 @@ def add_to_message(zipcode):
 
     text = req.json()
 
-    current_feelslike_f = text.get("current").get("feelslike_f")
-    current_condition = text.get("current").get("condition").get("text")
-    current_code = text.get("current").get("condition").get("code")
-    current_icon = icons[current_code]
+    currentFeelsLikeF = text.get("current").get("feelslike_f")
+    currentCondition = text.get("current").get("condition").get("text")
+    currentCode = text.get("current").get("condition").get("code")
+    currentIcon = icons[currentCode]
 
-    percent_snow = text.get("forecast").get("forecastday")[0]["day"]["daily_chance_of_snow"]
-    percent_rain = text.get("forecast").get("forecastday")[0]["day"]["daily_chance_of_rain"]
-    daily_min = text.get("forecast").get("forecastday")[0]["day"]["mintemp_f"]
-    daily_max = text.get("forecast").get("forecastday")[0]["day"]["maxtemp_f"]
+    percentSnow = text.get("forecast").get("forecastday")[0]["day"]["daily_chance_of_snow"]
+    percentRain = text.get("forecast").get("forecastday")[0]["day"]["daily_chance_of_rain"]
+    dailyMin = text.get("forecast").get("forecastday")[0]["day"]["mintemp_f"]
+    dailyMax = text.get("forecast").get("forecastday")[0]["day"]["maxtemp_f"]
 
-    message = f"It currently feels like {current_feelslike_f} ℉.\n"\
-                f"Overall forecast: {current_condition} {current_icon}\n"\
-                f"Max. temperature: {daily_max} ℉\n"\
-                f"Min. temperature: {daily_min} ℉\n"
+    message = f"It currently feels like {currentFeelsLikeF} ℉.\n"\
+                f"Overall forecast: {currentCondition} {currentIcon}\n"\
+                f"Max. temperature: {dailyMax} ℉\n"\
+                f"Min. temperature: {dailyMin} ℉\n"
 
-    if int(percent_snow) != 0:
-        message += f"There is a {percent_snow}% chance of snow.\nDon't forget to dress warm\n\n"
+    if int(percentSnow) != 0:
+        message += f"There is a {percentSnow}% chance of snow.\nDon't forget to dress warm\n\n"
 
-    if int(percent_rain) != 0:
-        message += f"There is a {percent_rain}% chance of rain.\nDon't forget to take your umbrella ☂☂\n\n"
+    if int(percentRain) != 0:
+        message += f"There is a {percentRain}% chance of rain.\nDon't forget to take your umbrella ☂☂\n\n"
 
     return message
