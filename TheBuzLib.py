@@ -39,6 +39,28 @@ class Database:
         
         return users
 
+    def refresh_users(self):
+        db_ref = db.reference("/", app=self.app)
+        
+        usernames = db_ref.child("usernames").get()
+        numbers = db_ref.child("numbers").get()
+        times = db_ref.child("times").get()
+        extensions = db_ref.child("extensions").get()
+
+        users = []
+
+        for name in usernames:
+            new_user = {"name": usernames[name]}
+
+            new_user["number"] = numbers[name]
+            new_user["time"] = times[name]
+            new_user["extensions"] = extensions[name]
+            new_user["sent"] = False
+                          
+            users.append(new_user)
+        
+        return users       
+
 
 class Messenger:
     def __init__(self) -> None:

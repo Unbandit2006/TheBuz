@@ -11,17 +11,22 @@ oldTime = time.localtime()
 
 running = True
 while running:
-    for user in myUsers:
-        newTime = time.localtime()
+    newTime = time.localtime()
 
-        newMonthName = calendar.month_name[newTime.tm_mon]
-        newDay = "0"+str(newTime.tm_mday) if newTime.tm_mday < 10 else str(newTime.tm_mday)
-        newYear = str(newTime.tm_year)
+    newMonthName = calendar.month_name[newTime.tm_mon]
+    newDay = "0"+str(newTime.tm_mday) if newTime.tm_mday < 10 else str(newTime.tm_mday)
+    newYear = str(newTime.tm_year)
 
-        newHour = "0"+str(newTime.tm_hour) if newTime.tm_hour < 10 else str(newTime.tm_hour)
-        newMin = "0"+str(newTime.tm_min) if newTime.tm_min < 10 else str(newTime.tm_min)
+    newHour = "0"+str(newTime.tm_hour) if newTime.tm_hour < 10 else str(newTime.tm_hour)
+    newMin = "0"+str(newTime.tm_min) if newTime.tm_min < 10 else str(newTime.tm_min)
 
-        newTime = f"{newHour}:{newMin}"                    
+    newTime = f"{newHour}:{newMin}"
+
+    oldDay = "0"+str(oldTime.tm_mday) if oldTime.tm_mday < 10 else str(oldTime.tm_mday)
+    if newDay != oldDay:
+        myDB.refresh_users()
+
+    for user in myUsers:                  
 
         if newTime == user.get("time"):
 
