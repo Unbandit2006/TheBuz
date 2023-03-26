@@ -40,12 +40,12 @@ class Database:
         return users
 
     def refresh_users(self):
-        db_ref = db.reference("/", app=self.app)
+        dbReference = db.reference("/", app=self.app)
         
-        usernames = db_ref.child("usernames").get()
-        numbers = db_ref.child("numbers").get()
-        times = db_ref.child("times").get()
-        extensions = db_ref.child("extensions").get()
+        usernames = dbReference.child("usernames").get()
+        numbers = dbReference.child("numbers").get()
+        times = dbReference.child("times").get()
+        extensions = dbReference.child("extensions").get()
 
         users = []
 
