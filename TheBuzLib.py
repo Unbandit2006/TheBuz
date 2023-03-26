@@ -33,6 +33,7 @@ class Database:
             new_user["number"] = numbers[name]
             new_user["time"] = times[name]
             new_user["extensions"] = extensions[name]
+            new_user["sent"] = False
                           
             users.append(new_user)
         
@@ -44,5 +45,5 @@ class Messenger:
         self.client = Client("AC8019d9ef2f2d8295d0fd87f430a186f2", "f576251d5b238ab5458dee60e9888dbc")
     
     def send_message(self, to: str, message: str):
-        self.client.messages.create(body=message, to=to)
+        self.client.messages.create(body=message, to=to, from_='+13479708748')
 

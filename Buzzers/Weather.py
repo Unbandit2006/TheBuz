@@ -67,9 +67,15 @@ def add_to_message(zipcode):
     daily_min = text.get("forecast").get("forecastday")[0]["day"]["mintemp_f"]
     daily_max = text.get("forecast").get("forecastday")[0]["day"]["maxtemp_f"]
 
-    message = rf"It currently feels like {current_feelslike_f} ℉.\n"\
-                rf"Overall forecast: {current_condition} {current_icon}\n"\
-                rf"Min. temperature: {daily_min} ℉\n"\
-                rf"Max. temperature: {daily_max} ℉\n\n"
+    message = f"It currently feels like {current_feelslike_f} ℉.\n"\
+                f"Overall forecast: {current_condition} {current_icon}\n"\
+                f"Max. temperature: {daily_max} ℉\n"\
+                f"Min. temperature: {daily_min} ℉\n"
+
+    if int(percent_snow) != 0:
+        message += f"There is a {percent_snow}% chance of snow.\nDon't forget to dress warm\n\n"
+
+    if int(percent_rain) != 0:
+        message += f"There is a {percent_rain}% chance of rain.\nDon't forget to take your umbrella ☂☂\n\n"
 
     return message

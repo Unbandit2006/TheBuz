@@ -25,11 +25,15 @@ while running:
 
         if newTime == user.get("time"):
 
-            message = rf"Hello {user.get('name')}\n"\
-                    rf"Today is {newMonthName} {newDay}, {newYear}\n\n"\
+            message = f"Hello {user.get('name')}\n"\
+                    f"Today is {newMonthName} {newDay}, {newYear}\n\n"\
 
-            if "Weather" in user.get("extensions"):
-                message = Buzzers.Weather.add_to_message(user.get("extensions").get("Weather"), message)
-            
-            print(message)
+            if "Weather" in user.get("extensions") and user.get("sent") == False:
+
+                if user.get("sent") == False:
+                    message = Buzzers.Weather.add_to_message(user.get("extensions").get("Weather"))
+                
+                    messenger = TheBuz.Messenger()
+                    messenger.send_message(user.get("number"), message)
+                    user["sent"] = True
 
