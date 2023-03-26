@@ -25,7 +25,7 @@ while running:
 
     oldDay = "0"+str(oldTime.tm_mday) if oldTime.tm_mday < 10 else str(oldTime.tm_mday)
     if newDay != oldDay:
-        myDB.refresh_users()
+        myUsers = myDB.get_users()
 
     for user in myUsers:                  
 

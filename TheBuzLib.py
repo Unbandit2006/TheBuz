@@ -17,29 +17,24 @@ class Database:
         cred = firebase_admin.credentials.Certificate(self.reader.get_key("database").get("credentials"))
         self.app = firebase_admin.initialize_app(cred, options={"databaseURL": self.reader.get_key("database").get("reference_url")})
     
+    def add_user(self, name: str, number: str, time: str, zipcode: str):
+        dbReference = db.reference("/", app=self.app)
+
+        usernames = dbReference.child("usernames")
+
+        key = usernames.push(name).key
+
+        num = dbReference.child("numbers").child(key)
+        num.set(f"{number}")
+
+        clock = dbReference.child("times").child(key)
+        clock.set(f"{time}")
+
+        extensions = dbReference.child("extensions").child(key)
+        extensions.set({"Weather":zipcode})
+
+
     def get_users(self):
-        db_ref = db.reference("/", app=self.app)
-        
-        usernames = db_ref.child("usernames").get()
-        numbers = db_ref.child("numbers").get()
-        times = db_ref.child("times").get()
-        extensions = db_ref.child("extensions").get()
-
-        users = []
-
-        for name in usernames:
-            new_user = {"name": usernames[name]}
-
-            new_user["number"] = numbers[name]
-            new_user["time"] = times[name]
-            new_user["extensions"] = extensions[name]
-            new_user["sent"] = False
-                          
-            users.append(new_user)
-        
-        return users
-
-    def refresh_users(self):
         dbReference = db.reference("/", app=self.app)
         
         usernames = dbReference.child("usernames").get()
@@ -50,16 +45,16 @@ class Database:
         users = []
 
         for name in usernames:
-            new_user = {"name": usernames[name]}
+            newUser = {"name": usernames[name]}
 
-            new_user["number"] = numbers[name]
-            new_user["time"] = times[name]
-            new_user["extensions"] = extensions[name]
-            new_user["sent"] = False
+            newUser["number"] = numbers[name]
+            newUser["time"] = times[name]
+            newUser["extensions"] = extensions[name]
+            newUser["sent"] = False
                           
-            users.append(new_user)
+            users.append(newUser)
         
-        return users       
+        return users      
 
 
 class Messenger:
