@@ -37,7 +37,7 @@ while running:
             if "Weather" in user.get("extensions") and user.get("sent") == False:
 
                 if user.get("sent") == False:
-                    message = Buzzers.Weather.add_to_message(user.get("extensions").get("Weather"))
+                    message += Buzzers.Weather.add_to_message(user.get("extensions").get("Weather"))
                 
                     myMessenger.send_message(user.get("number"), message)
                     user["sent"] = True
