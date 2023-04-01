@@ -59,6 +59,7 @@ def add_to_message(zipcode):
 
     currentFeelsLikeF = text.get("current").get("feelslike_f")
     currentCondition = text.get("current").get("condition").get("text")
+    currentTemp = text.get("current").get("temp_f")
     currentCode = text.get("current").get("condition").get("code")
     currentIcon = icons[currentCode]
 
@@ -68,6 +69,7 @@ def add_to_message(zipcode):
     dailyMax = text.get("forecast").get("forecastday")[0]["day"]["maxtemp_f"]
 
     message = f"It currently feels like {currentFeelsLikeF} ℉.\n"\
+                f"Current temperature: {currentTemp} ℉\n"\
                 f"Overall forecast: {currentCondition} {currentIcon}\n"\
                 f"Max. temperature: {dailyMax} ℉\n"\
                 f"Min. temperature: {dailyMin} ℉\n"
