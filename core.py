@@ -14,6 +14,8 @@ running = True
 while running:
     newTime = time.localtime()
 
+    holiday = ""+Buzzers.Holidays.get_holiday(newTime)
+
     newMonthName = calendar.month_name[newTime.tm_mon]
     newDay = "0"+str(newTime.tm_mday) if newTime.tm_mday < 10 else str(newTime.tm_mday)
     newYear = str(newTime.tm_year)
@@ -24,9 +26,12 @@ while running:
     newTime = f"{newHour}:{newMin}"
 
     oldDay = "0"+str(oldTime.tm_mday) if oldTime.tm_mday < 10 else str(oldTime.tm_mday)
+
+    # Only is true on diff day from start day
     if newDay != oldDay:
         myUsers = myDB.get_users()
         oldTime = time.localtime()
+        myUsers = myDB.get_users()
 
     for user in myUsers:                  
 
@@ -37,9 +42,12 @@ while running:
 
             if "Weather" in user.get("extensions") and user.get("sent") == False:
 
-                if user.get("sent") == False:
+                if not user.get("sent", False):
                     message += Buzzers.Weather.add_to_message(user.get("extensions").get("Weather"))
                 
                     myMessenger.send_message(user.get("number"), message)
                     user["sent"] = True
+
+            if holiday != "":
+                message += f"\n\nHappy {holiday}\n- From TheBuz"
 
