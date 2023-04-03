@@ -14,7 +14,7 @@ running = True
 while running:
     newTime = time.localtime()
 
-    holiday = ""+Buzzers.Holidays.get_holiday(newTime)
+    # holiday = ""+Buzzers.Holidays.get_holiday(newTime)
 
     newMonthName = calendar.month_name[newTime.tm_mon]
     newDay = "0"+str(newTime.tm_mday) if newTime.tm_mday < 10 else str(newTime.tm_mday)
@@ -48,6 +48,6 @@ while running:
                     myMessenger.send_message(user.get("number"), message)
                     user["sent"] = True
 
-            if holiday != "":
-                message += f"\n\nHappy {holiday}\n- From TheBuz"
+            # if holiday != "":
+            #     message += f"\n\nHappy {holiday}\n- From TheBuz"
 
