@@ -54,7 +54,34 @@ class Database:
                           
             users.append(newUser)
         
-        return users      
+        return users
+
+
+    def get_messages(self):
+        messages = db.reference("/messages", app=self.app).get()
+
+        allMessages = []
+        for x in messages:
+            allMessages.append((x, messages[x]))
+
+        return allMessages
+
+    def change_value(self, what):
+        messages = db.reference("/messages", app=self.app).get()
+
+        for x in messages:
+            if x == what:
+                old_data = messages[x]
+
+                new_data = []
+                for i in old_data:
+                    if i in [True, False]:
+                        i = not i
+
+                    new_data.append(i)
+
+                db.reference(f"/messages/{x}", app=self.app).set(new_data)
+
 
 
 class Messenger:
