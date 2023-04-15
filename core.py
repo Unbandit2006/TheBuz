@@ -40,17 +40,18 @@ while running:
             message = f"Hello {user.get('name')}\n"\
                     f"Today is {newMonthName} {newDay}, {newYear}\n\n"\
 
-            if "Weather" in user.get("extensions") and user.get("sent") == False:
+            if user.get("sent") == False:
 
-                if not user.get("sent", False):
+                if "Weather" in user.get("extensions"):
                     message += Buzzers.Weather.add_to_message(user.get("extensions").get("Weather"))
-                
-                    myMessenger.send_message(user.get("number"), message)
-                    user["sent"] = True
 
-            # if holiday != "":
-            #     message += f"\n\nHappy {holiday}\n- From TheBuz"
+                if "News" in user.get("extensions"):
+                    message += Buzzers.News.get_news()
+            
+                myMessenger.send_message(user.get("number"), message)
+                user["sent"] = True
 
+        # Reading messages
         for message in myDB.get_messages():
             uuid = message[0]
             to = message[1][0]
