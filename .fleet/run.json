@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "python",
+            "name": "The Buz",
+            "arguments": ["core.py"],
+        },
+
+    ]
+}

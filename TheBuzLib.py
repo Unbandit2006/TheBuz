@@ -82,7 +82,22 @@ class Database:
 
                 db.reference(f"/messages/{x}", app=self.app).set(new_data)
 
+    def find_user(self, phone_number: int):
+        numbers = db.reference("/numbers", app=self.app).get()
 
+        for x in numbers:
+            if numbers[x] == phone_number:
+                usernames = db.reference("usernames").get()
+                times = db.reference("times").get()
+                extensions = db.reference("extensions").get()
+                
+                newUser = {"name": usernames[x]}
+                newUser["number"] = numbers[x]
+                newUser["time"] = times[x]
+                newUser["extensions"] = extensions[x]
+                newUser["sent"] = False
+
+                return newUser
 
 class Messenger:
     def __init__(self) -> None:
