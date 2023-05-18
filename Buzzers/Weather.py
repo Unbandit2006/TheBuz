@@ -51,6 +51,9 @@ icons = {
     128: "❄⚡"
 }
 
+images = {
+    1000: "sunny.png"
+}
 
 def add_to_message(zipcode):
     req = requests.get("https://api.weatherapi.com/v1/forecast.json", params={"key":"016e19390dba4ad5807184556222205", "q":f"{zipcode}","aqi":"no", "alerts":"no"})
@@ -81,3 +84,33 @@ def add_to_message(zipcode):
         message += rf"There is a {percentRain}% chance of rain.<br>Don't forget to take your umbrella ☂☂<br><br>"
 
     return message
+
+def get_raw_data(zipcode: str):
+    req = requests.get("https://api.weatherapi.com/v1/forecast.json", params={"key":"016e19390dba4ad5807184556222205", "q":f"{zipcode}","aqi":"no", "alerts":"no"})
+
+    text = req.json()
+
+    location =  text.get("location").get("name") + ", "+ text.get("location").get("region")
+
+    currentFeelsLikeF = text.get("current").get("feelslike_f")
+    currentCondition = text.get("current").get("condition").get("text")
+    currentTemp = text.get("current").get("temp_f")
+    currentCode = text.get("current").get("condition").get("code")
+    currentIcon = text.get("current").get("condition").get("icon")
+
+    percentSnow = text.get("forecast").get("forecastday")[0]["day"]["daily_chance_of_snow"]
+    percentRain = text.get("forecast").get("forecastday")[0]["day"]["daily_chance_of_rain"]
+    dailyMin = text.get("forecast").get("forecastday")[0]["day"]["mintemp_f"]
+    dailyMax = text.get("forecast").get("forecastday")[0]["day"]["maxtemp_f"]
+
+    message = {"Location": location, "CurrentFeelsLikeF": currentFeelsLikeF, "CurrentCondition": currentCondition, "CurrentTemp": currentTemp,
+               "CurrentCode": currentCode, "CurrentIcon": icons[currentCode], "Min": dailyMin, "Max": dailyMax}
+
+    if int(percentSnow) != 0:
+        message["Snow"] = percentSnow
+
+    if int(percentRain) != 0:
+        message["Rain"] = percentRain
+
+    return message
+
