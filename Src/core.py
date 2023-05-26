@@ -1,4 +1,4 @@
-import TheBuzLib as TheBuz
+import Src.TheBuzLib as TheBuz
 import time
 import calendar
 import Buzzers

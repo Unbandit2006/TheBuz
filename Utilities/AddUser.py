@@ -1,4 +1,4 @@
-import TheBuzLib as TheBuz
+import Src.TheBuzLib as TheBuz
 
 name = input("Name: ")
 number = input("Number: ")

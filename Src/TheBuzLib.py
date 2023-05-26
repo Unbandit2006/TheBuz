@@ -6,20 +6,24 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import make_msgid, format_datetime
 import datetime
+
+
 class Reader:
-    def __init__(self, file: str, mode: str= "Dev") -> None:
+    def __init__(self, file: str, mode: str = "Dev") -> None:
         self.contents = json.loads(open(file).read()).get(mode)
-    
+
     def get_key(self, key: str):
         return self.contents.get(key, False)
+
 
 class Database:
     def __init__(self, reader: Reader) -> None:
         self.reader = reader
 
         cred = firebase_admin.credentials.Certificate(self.reader.get_key("database").get("credentials"))
-        self.app = firebase_admin.initialize_app(cred, options={"databaseURL": self.reader.get_key("database").get("reference_url")})
-    
+        self.app = firebase_admin.initialize_app(cred, options={
+            "databaseURL": self.reader.get_key("database").get("reference_url")})
+
     def add_user(self, name: str, number: str, time: str, zipcode: str):
         dbReference = db.reference("/", app=self.app)
 
@@ -34,11 +38,11 @@ class Database:
         clock.set(f"{time}")
 
         extensions = dbReference.child("extensions").child(key)
-        extensions.set({"Weather":zipcode})
+        extensions.set({"Weather": zipcode})
 
     def get_users(self):
         dbReference = db.reference("/", app=self.app)
-        
+
         usernames = dbReference.child("usernames").get()
         numbers = dbReference.child("numbers").get()
         times = dbReference.child("times").get()
@@ -52,7 +56,7 @@ class Database:
                        "extensions": extensions[name], "sent": False, "carrier": carrier[name]}
 
             users.append(newUser)
-        
+
         return users
 
     def get_messages(self):
@@ -88,7 +92,7 @@ class Database:
                 usernames = db.reference("usernames").get()
                 times = db.reference("times").get()
                 extensions = db.reference("extensions").get()
-                
+
                 newUser = {"name": usernames[x]}
                 newUser["number"] = numbers[x]
                 newUser["time"] = times[x]
@@ -108,7 +112,7 @@ class Messenger:
         self.client.starttls()
         self.client.ehlo()
         self.client.login("JohnCrichton.Mars@gmail.com", "kjzjxjkorqnzbrmc")
-        
+
         self.email = MIMEMultipart("alternative")
         self.email["Date"] = format_datetime(datetime.datetime.now())
         self.email["Message-ID"] = make_msgid()
@@ -120,6 +124,5 @@ class Messenger:
 
         body = MIMEText(message, "html", "UTF-8")
         self.email.attach(body)
-        
-        self.client.sendmail("JohnCrichton.Mars@gmail.com", to, self.email.as_string())
 
+        self.client.sendmail("JohnCrichton.Mars@gmail.com", to, self.email.as_string())
