@@ -40,6 +40,9 @@ class Database:
         extensions = dbReference.child("extensions").child(key)
         extensions.set({"Weather": zipcode})
 
+        carriers = dbReference.child("carriers").child(key)
+        carriers.set(f"cool") # TODO CHANGE THIS SO THAT IT HAS PRORPER
+
     def get_users(self):
         dbReference = db.reference("/", app=self.app)
 
@@ -84,22 +87,80 @@ class Database:
 
                 db.reference(f"/messages/{x}", app=self.app).set(new_data)
 
-    def find_user(self, phone_number: int):
+    def find_user(self, search_term: int | str):
+        usernames = db.reference("/usernames", app=self.app).get()
         numbers = db.reference("/numbers", app=self.app).get()
 
-        for x in numbers:
-            if numbers[x] == phone_number:
-                usernames = db.reference("usernames").get()
-                times = db.reference("times").get()
-                extensions = db.reference("extensions").get()
+        if type(search_term) == int:
+            for x in numbers:
+                if numbers[x] == search_term:
+                    times = db.reference("times").get()
+                    extensions = db.reference("extensions").get()
+                    carriers = db.reference("carriers").get()
 
-                newUser = {"name": usernames[x]}
-                newUser["number"] = numbers[x]
-                newUser["time"] = times[x]
-                newUser["extensions"] = extensions[x]
-                newUser["sent"] = False
+                    newUser = {"name": usernames[x]}
+                    newUser["number"] = numbers[x]
+                    newUser["time"] = times[x]
+                    newUser["extensions"] = extensions[x]
+                    newUser["sent"] = False
+                    newUser["carrier"] = carriers[x]
 
-                return newUser
+                    return newUser
+                
+        elif type(search_term) == str:
+            usernames = db.reference("/usernames", app=self.app).get()
+
+            for x in usernames:
+                if usernames[x] == search_term:
+                    times = db.reference("times").get()
+                    extensions = db.reference("extensions").get()
+                    carriers = db.reference("carriers").get()
+
+                    newUser = {"name": usernames[x]}
+                    newUser["number"] = numbers[x]
+                    newUser["time"] = times[x]
+                    newUser["extensions"] = extensions[x]
+                    newUser["sent"] = False
+                    newUser["carrier"] = carriers[x]
+
+                    return newUser
+                
+    def remove_user(self, search_term: str):
+        usernames = db.reference("/usernames", app=self.app).get()
+
+        for x in usernames:
+            if usernames[x] == search_term:
+                db.reference(f"/usernames/{x}").delete()
+                db.reference(f"/times/{x}").delete()
+                db.reference(f"/numbers/{x}").delete()
+                db.reference(f"/extensions/{x}").delete()
+                db.reference(f"/carriers/{x}").delete()
+
+    def get_zipcode_stats(self):
+        zipcodes = {}
+        usernames = db.reference("/usernames", app=self.app).get()
+
+        for x in usernames:
+            zipcode = db.reference(f"/extensions/{x}/Weather").get()
+            if zipcode in zipcodes.keys():
+                zipcodes[zipcode] += 1
+            else:
+                zipcodes[zipcode] = 1
+
+        return zipcodes
+
+    def get_service_stats(self):
+        services = {}
+        usernames = db.reference("/usernames", app=self.app).get()
+
+        for x in usernames:
+            service = db.reference(f"/extensions/{x}/Weather").get()
+            if service in services.keys():
+                services[service] += 1
+            else:
+                services[service] = 1
+
+        return services       
 
 
 class Messenger:

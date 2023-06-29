@@ -1,0 +1,379 @@
+--- Eva ---
+
+class Console:
+    def __init__(self, font: pygame.font.FontType, keybind, textColor:str|tuple[int]="Black", backgroundColor:str|tuple[int]="Green") -> None:
+        self.font = font
+        self.keybind = keybind
+        self.textColor = textColor
+        self.backgroundColor = backgroundColor
+        self.draw = False
+
+        self.inputText = ""
+        self.oldCommands = []
+        self.index = 0
+        self.commands = []
+
+        self.height = self.font.get_height()+2
+        self.width = 0
+
+        self.x = 0
+        self.y = 0
+
+    def Command(self, name:str, command:callable):
+        self.commands.append((name, command))
+
+    def HandleEvent(self, event: pygame.event.EventType):
+        if event.type == pygame.KEYDOWN:
+            if event.key == self.keybind:
+                self.draw = not self.draw
+
+            elif event.key == pygame.K_BACKSPACE:
+                self.inputText = self.inputText[:-1]
+            
+            elif event.key == pygame.K_RETURN:
+                self.oldCommands.append(self.inputText)
+                commandText = self.inputText.split(" ")
+                
+                commandName = commandText[0]
+                commandText.pop(0)
+                
+                self.inputText = ""
+                for command in self.commands:
+                    if command[0] == commandName:
+                        command[1](commandText)
+            
+            elif event.key == pygame.K_UP:
+                self.index += 1
+                try:
+                    self.inputText = self.oldCommands[len(self.oldCommands)-self.index]
+                except Exception as e:
+                    pass
+
+            elif event.key == pygame.K_DOWN:
+                self.index -= 1
+                try:
+                    self.inputText = self.oldCommands[len(self.oldCommands)-self.index]
+                except Exception as e:
+                    pass
+        
+        elif event.type == pygame.TEXTINPUT and self.draw == True:
+            if event.text != "`":
+                self.inputText += event.text
+
+    def Draw(self, parent: pygame.SurfaceType):
+        self.width = parent.get_width() * 0.80
+
+        self.x = parent.get_width()//2 - self.width//2
+        self.y = parent.get_height()//2 - self.height//2
+
+        if self.draw == True:
+            backgroundRect = pygame.Rect(self.x, self.y, self.width, self.height)
+            pygame.draw.rect(parent, self.backgroundColor, backgroundRect)
+
+            startIndicator = self.font.render("> ", True, self.textColor, self.backgroundColor)
+            parent.blit(startIndicator, (self.x, self.y))
+
+            inputRender = self.font.render(self.inputText, True, self.textColor, self.backgroundColor)
+            parent.blit(inputRender, (self.x+startIndicator.get_width(), self.y))
+
+class ErrorPopup:
+    def __init__(self, font:pygame.font.FontType, title:str="An error occurred", message:str="Some kind of error occurred.") -> None:
+        self.font = font
+        self.title = title
+        self.message = message.split("\n")
+
+        self.background = "Grey"
+        self.textColor = "Black"
+        self.titleColor = "Red"
+        self.draw = True
+
+    def Draw(self, parent: pygame.SurfaceType):
+        # Width
+        maxWidth = 20
+        for text in self.message:
+            textWidth = self.font.render(text, True, self.textColor, self.background).get_width()
+            if textWidth + 20 >= maxWidth:
+                maxWidth = textWidth + 20
+        
+        titleWidth = self.font.render(self.title, True, self.textColor, self.background).get_width() + 20
+        if titleWidth >= maxWidth:
+            maxWidth = titleWidth
+
+        # Height
+        maxHeight = (self.font.get_height() * (len(self.message) + 2)) + (10 * (len(self.message) + 2))
+
+        windowSurface = pygame.Surface((maxWidth, maxHeight))
+        windowSurface.fill(self.background)
+        
+        titleRender = self.font.render(self.title, True, self.titleColor, self.background)
+        windowSurface.blit(titleRender, (windowSurface.get_width()//2-titleRender.get_width()//2, 0))
+        latestX, latestY = 0, 0
+        for count, text in enumerate(self.message,1):
+            textRender = self.font.render(text, True, self.textColor, self.background)
+            windowSurface.blit(textRender, (windowSurface.get_width()//2-textRender.get_width()//2, (10*count)+(titleRender.get_height()*count)))
+            latestX, latestY = windowSurface.get_width()//2-textRender.get_width()//2, (10*count)+(titleRender.get_height()*count)
+
+        escRender = self.font.render("Press ESC to close the window.", True, "Blue", self.background)
+        windowSurface.blit(escRender, (windowSurface.get_width()//2-escRender.get_width()//2, latestY+escRender.get_height()+10))
+
+        parent.blit(windowSurface, (parent.get_width()//2-windowSurface.get_width()//2, parent.get_height()//2-windowSurface.get_height()//2))
+
+    def UpdateMessages(self, title:str="An error occurred", message:str="Some kind of error occurred."):
+        self.title = title
+        self.message = message.split("\n") 
+
+    def HandleEvent(self, event, drawList: list):
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                self.draw = False
+
+
+--- BuzzerEditor ---
+import pygame
+# from pypresence import presence
+from Eva import *
+
+pygame.init()
+
+# Pygame things
+clock = pygame.time.Clock()
+
+# Loading things
+normal_font = pygame.font.Font("FiraSans-Medium.ttf", 14)
+
+# Window Settings
+window = pygame.display.set_mode((1280, 720), pygame.RESIZABLE)
+pygame.display.set_caption('BuzzerEditor')
+drawList = []
+
+# RPC = presence.Presence("1117677049725865995")
+# RPC.connect()
+
+# Functions
+def indexExists(index, list, defaultValue):
+    if 0 <= index < len(list):
+        return list[index]
+    
+    else:
+        return defaultValue
+    
+def findInList(searchTerm, list, value: bool=True):
+    for count, x in enumerate(list):
+        if x == searchTerm:
+            if value == True:
+                return x
+            else:
+                return int(count)
+        else:
+            return -1
+        
+def findIndexinList(searchTerm, searchList: list):
+    for count, search in searchList:
+        if search == searchTerm:
+            return count
+        else:
+            return -1
+
+def load(args):
+    imagePath = args[0]
+    try:
+        imageSurface = pygame.image.load(imagePath)
+    
+        imageX = window.get_width()//2-imageSurface.get_width()//2
+        imageY = window.get_height()//2-imageSurface.get_height()//2
+
+        for count, arg in enumerate(args):
+            if arg == "fit":
+                percentageChange = int(indexExists(count+1, args, "50%")[:-1])/100
+
+                aspectRatio = imageSurface.get_width()/imageSurface.get_height()
+
+                if window.get_width()/window.get_height() < aspectRatio:
+                    width = window.get_width()*percentageChange
+                    height = width/aspectRatio
+                else:
+                    height = window.get_height()*percentageChange
+                    width = height*aspectRatio
+                
+                imageX = (window.get_width()-width)//2
+                imageY = (window.get_height()-height)//2
+                imageSurface = pygame.transform.smoothscale(imageSurface, (width, height))
+
+                pygame.display.set_caption(f"BuzzerEditor - {imagePath}")
+
+        load.imageOpen = True
+        drawList.append(("image", imageSurface, (imageX, imageY)))
+
+    except Exception as e:
+        error = ErrorPopup(normal_font, message=f"Couldn't load '{args[0]}' to use.")
+        drawList.append(("surface", error))
+
+def add(args: list):
+    if load.imageOpen == True:
+        for arg in args:
+            if arg == "text":
+                try:
+                    sizeIndex = args.index("fontSize") + 1
+                    size = int(args[sizeIndex])
+                except:
+                    size = 14
+
+                try:
+                    colorIndex = args.index("fontColor") + 1
+                    color = args[colorIndex]
+                except:
+                    color = "Black"               
+
+                font = pygame.font.Font("FiraSans-Medium.ttf", size)
+                drawList.append(("image", font.render(args[1], True, color), pygame.mouse.get_pos()))
+                print(font.render(args[1], True, color).get_height())
+                print(300/font.render(args[1], True, color).get_height())
+
+    else:
+        error = ErrorPopup(normal_font, message=f"No image loaded.")
+        drawList.append(("surface", error))
+
+def clear(args):
+    drawList.clear()
+    load.imageOpen = False
+
+def about(args):
+    aboutPage = ErrorPopup(normal_font, "About BuzzerEditor", f"Developed By: Daniel Zheleznov (Unbandit)")
+    aboutPage.titleColor = "Black"
+    aboutPage.textColor = "#36454f"
+    drawList.append(("surface", aboutPage))
+
+textConsole = Console(normal_font, pygame.K_BACKQUOTE)
+textConsole.Command("load", load)
+textConsole.Command("add", add)
+textConsole.Command("clear", clear)
+textConsole.Command("about", about)
+textConsole.Command("quit", quit)
+
+
+
+running = True
+while running:
+    # RPC.update(state="Building The Future.", details="Working on TheBuzEditor")
+    window.fill("Black")
+
+    for obj in drawList:
+        if obj[0] == "image":
+            window.blit(obj[1], obj[2])
+
+        elif obj[0] == "surface":
+            if obj[1].draw == True:
+                obj[1].Draw(window)
+
+    textConsole.Draw(window)
+ 
+    clock.tick(60)
+    pygame.display.update()
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+            pygame.quit()
+
+        textConsole.HandleEvent(event)
+
+        for obj in drawList:
+            if obj[0] == "surface":
+                obj[1].HandleEvent(event, drawList)
+
+--- Eva 6/28/2023 ---
+
+class InteractiveWidget:
+    def __init__(self) -> None:
+        self.draw = True
+
+    def Draw(self, window: pygame.SurfaceType):
+        pass
+
+    def HandleEvent(self, event: pygame.event.EventType):
+        pass
+
+
+class StaticWidget:
+    """
+    Used for stuff you just want to paste, "blit" onto the screen (Not used to be interactive)
+    """
+    def __init__(self) -> None:
+        self.draw = True
+
+    def Draw(self, window: pygame.SurfaceType):
+        pass
+
+
+class ImageWidget(StaticWidget):
+    def __init__(self, imagePath: str, zoomPercentage: int = 50) -> None:
+        self.zoomPercentage = zoomPercentage
+        self.imagePath = imagePath
+        self.imageSurface = pygame.image.load(self.imagePath)
+        self.draw = True
+        super().__init__()
+
+    def Draw(self, window: pygame.SurfaceType):
+        percentageChange = self.zoomPercentage/100
+
+        aspectRatio = self.imageSurface.get_width()/self.imageSurface.get_height()
+
+        if window.get_width()/window.get_height() < aspectRatio:
+            width = window.get_width()*percentageChange
+            height = width/aspectRatio
+        else:
+            height = window.get_height()*percentageChange
+            width = height*aspectRatio
+        
+        imageX = (window.get_width()-width)//2
+        imageY = (window.get_height()-height)//2
+        imageSurface = pygame.transform.smoothscale(self.imageSurface, (width, height))
+
+        window.blit(imageSurface, (imageX, imageY))
+
+
+class TextButtonWidget(InteractiveWidget):
+    def __init__(self, text: str, inactiveColor: str|tuple[int], activeColor: str|tuple[int], command: callable, 
+                 x: int = 0, y: int = 0, sidePadding: int = 5, topPadding: int = 2, 
+                 font: pygame.font.FontType = pygame.font.Font("C:\\Dev\\Python\\TheBuz\\Assets\\FiraSans-Medium.ttf", 14)) -> None:
+        self.x = x
+        self.y = y
+        self.sidePadding = sidePadding
+        self.topPadding = topPadding
+        self.font = font
+        
+        self.text = text
+        self.inactiveColor = inactiveColor
+        self.activeColor = activeColor
+        self.currentColor = self.inactiveColor
+        self.command = command
+
+        self.position = (self.x, self.y)
+        super().__init__()
+
+    def GetWidth(self):
+        return self.font.render(self.text, True, "Black").get_width() + self.sidePadding*2
+
+    def GetHeight(self):
+        return self.font.render(self.text, True, "Black").get_height() + self.topPadding*2
+    
+    def SetPosition(self, newPosition: str|tuple[int]):
+        self.position = newPosition
+    
+    def Draw(self, window: pygame.SurfaceType):        
+        textSurface = self.font.render(self.text, True, "Black", self.currentColor)
+
+        if self.position == "Center":
+            self.x = window.get_width()//2 - self.GetWidth()//2
+            self.y = window.get_height()//2 - self.GetHeight()//2
+        
+        pygame.draw.rect(window, self.currentColor, pygame.Rect(self.x, self.y, textSurface.get_width()+(2*self.sidePadding), textSurface.get_height()+(2*self.topPadding)), 0, 2)
+        window.blit(textSurface, (self.x+self.sidePadding, self.y+self.topPadding))
+
+    def HandleEvent(self, event: pygame.event.EventType):
+        print(event)
+        textSurface = self.font.render(self.text, True, "Black", self.currentColor)
+        if event.type == pygame.MOUSEBUTTONUP:
+            if pygame.Rect(self.x, self.y, textSurface.get_width()+(2*self.sidePadding), textSurface.get_height()+(2*self.topPadding)).collidepoint(event.pos) == True:
+                print(event.pos)
+                self.currentColor = self.activeColor if self.currentColor == self.inactiveColor else self.inactiveColor

@@ -1,0 +1,5 @@
+[PartlyCloudy]
+filename = "C:\\Dev\\Python\\TheBuz\\Assets\\images\\partly-cloudy.jpg"
+texts = [
+    ["Location", "Black", ["FiraSans-Medium.ttf", 100], (700, 100)]
+]

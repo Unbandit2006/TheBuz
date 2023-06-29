@@ -1,9 +1,11 @@
+import sys
+sys.path.insert(1, "C:\\Dev\\Python\\TheBuz")
 import Buzzers.Weather as weather
 from PIL import Image, ImageDraw, ImageFont
 
 current_weather = weather.get_raw_data("10306")
 
-with Image.open("images\\partly-cloudy.jpg").convert("RGBA") as background:
+with Image.open("C://Users//Danie//Downloads//sunny.jpg").convert("RGBA") as background:
 
     txt = Image.new("RGBA", background.size, (255,255,255, 0))
 
@@ -33,5 +35,5 @@ with Image.open("images\\partly-cloudy.jpg").convert("RGBA") as background:
     
     background = Image.alpha_composite(background, txt)
 
-    background.save("C://Users//Danie//Desktop//myImage.png")
+    background.save("C://Users//Danie//Desktop//myImage2.png")
 

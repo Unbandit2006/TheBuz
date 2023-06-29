@@ -1,55 +1,64 @@
-import Src.TheBuzLib as TheBuz
+import TheBuzLib as TheBuz
 import time
 import calendar
-import Buzzers
+# import Buzzers
 
 myReader = TheBuz.Reader("Config.json")
 myDB = TheBuz.Database(myReader)
+startTime = time.time()
 myUsers = myDB.get_users()
+print(time.time() - startTime)
 myMessenger = TheBuz.Messenger()
 
 oldTime = time.localtime()
 
 running = True
-while running:
-    newTime = time.localtime()
+# while running:
+#     newTime = time.localtime()
+
+#     # TODO: Make a system utilizing the images rather than text
+#     MonthName = calendar.month_name[newTime.tm_mon]
+#     MonthDay = "0"+str(newTime.tm_mday) if newTime.tm_mday < 10 else str(newTime.tm_mday)
+#     Year = str(newTime.tm_year)
+
+    
 
     # holiday = ""+Buzzers.Holidays.get_holiday(newTime)
 
-    newMonthName = calendar.month_name[newTime.tm_mon]
-    newDay = "0"+str(newTime.tm_mday) if newTime.tm_mday < 10 else str(newTime.tm_mday)
-    newYear = str(newTime.tm_year)
+    # newMonthName = calendar.month_name[newTime.tm_mon]
+    # newDay = "0"+str(newTime.tm_mday) if newTime.tm_mday < 10 else str(newTime.tm_mday)
+    # newYear = str(newTime.tm_year)
 
-    newHour = "0"+str(newTime.tm_hour) if newTime.tm_hour < 10 else str(newTime.tm_hour)
-    newMin = "0"+str(newTime.tm_min) if newTime.tm_min < 10 else str(newTime.tm_min)
+    # newHour = "0"+str(newTime.tm_hour) if newTime.tm_hour < 10 else str(newTime.tm_hour)
+    # newMin = "0"+str(newTime.tm_min) if newTime.tm_min < 10 else str(newTime.tm_min)
 
-    newTime = f"{newHour}:{newMin}"
+    # newTime = f"{newHour}:{newMin}"
 
-    oldDay = "0"+str(oldTime.tm_mday) if oldTime.tm_mday < 10 else str(oldTime.tm_mday)
+    # oldDay = "0"+str(oldTime.tm_mday) if oldTime.tm_mday < 10 else str(oldTime.tm_mday)
 
-    # Only is true on diff day from start day
-    if newDay != oldDay:
-        myUsers = myDB.get_users()
-        oldTime = time.localtime()
-        myUsers = myDB.get_users()
+    # # Only is true on diff day from start day
+    # if newDay != oldDay:
+    #     myUsers = myDB.get_users()
+    #     oldTime = time.localtime()
+    #     myUsers = myDB.get_users()
 
-    for user in myUsers:                  
+    # for user in myUsers:                  
 
-        if newTime == user.get("time"):
+    #     if newTime == user.get("time"):
 
-            message = f"Hello {user.get('name')}<br>"\
-                    f"Today is {newMonthName} {newDay}, {newYear}<br><br>"\
+    #         message = f"Hello {user.get('name')}<br>"\
+    #                 f"Today is {newMonthName} {newDay}, {newYear}<br><br>"\
 
-            if user.get("sent") == False:
+    #         if user.get("sent") == False:
 
-                if "Weather" in user.get("extensions"):
-                    message += Buzzers.Weather.add_to_message(user.get("extensions").get("Weather"))
+    #             if "Weather" in user.get("extensions"):
+    #                 message += Buzzers.Weather.add_to_message(user.get("extensions").get("Weather"))
 
-                if "News" in user.get("extensions"):
-                    message += Buzzers.News.get_news()
+    #             if "News" in user.get("extensions"):
+    #                 message += Buzzers.News.get_news()
             
-                myMessenger.send_message(user.get("carrier"), message)
-                user["sent"] = True
+    #             myMessenger.send_message(user.get("carrier"), message)
+    #             user["sent"] = True
 
     
     # Reading messages
