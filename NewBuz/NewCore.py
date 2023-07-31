@@ -48,8 +48,9 @@ while True:
             altMins = "0" + str(altMins) if altMins < 10 else altMins
             altHour = "0" + str(altHour) if altHour < 10 else altHour
 
-            if not os.path.exists(f"C:\\Dev\\Python\\TheBuz\\NewBuz\\images\\{buzzer};{personBuzzers[buzzer]};{newTime.tm_year}-{newMonth}-{newMDay}-{hour}-{mins}.jpg"):
-                pass
+            # if not os.path.exists(f"C:\\Dev\\Python\\TheBuz\\NewBuz\\images\\{buzzer};{personBuzzers[buzzer]};{newTime.tm_year}-{newMonth}-{newMDay}-{hour}-{mins}.jpg"):
+            for buzzerFiles in os.listdir("..\\Buzzers"):
+                print(buzzerFiles)
 
 
 
