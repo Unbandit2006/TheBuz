@@ -30,21 +30,21 @@ while running:
 
                 messenger.send_image_messages(person.number, message)
 
-            else:
-                message = ""
+            # else:
+            #     message = ""
 
-                for extension in person.extensions:
-                    if os.path.exists(f"Buzzers\\{extension}"):
-                        os.chdir(f"Buzzers\\{extension}")
-                        module = TheBuzLib.import_module_by_path(".\\Main.py", extension)
-                        text = module.main_text(person.extensions[extension])
-                        message += text              
+            #     for extension in person.extensions:
+            #         if os.path.exists(f"Buzzers\\{extension}"):
+            #             os.chdir(f"Buzzers\\{extension}")
+            #             module = TheBuzLib.import_module_by_path(".\\Main.py", extension)
+            #             text = module.main_text(person.extensions[extension])
+            #             message += text              
 
-                messenger.send_text_message(person.number, message)
+            #     messenger.send_text_message(person.number, message)
 
 
-            # DEBUG ONLY
-            print(f"SENT: {person.number} @ {current_time} for {person.time}")
+                # DEBUG ONLY
+                print(f"SENT: {person.number} @ {current_time} for {person.time}")
 
     
 
