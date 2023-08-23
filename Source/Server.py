@@ -20,11 +20,11 @@ while running:
                 message = []
                 
                 for extension in person.extensions:
-                    if os.path.exists(f"Buzzers\\{extension}"):
-                        os.chdir(f"Buzzers\\{extension}")
-                        module = TheBuzLib.import_module_by_path(".\\Main.py", extension)
+                    if os.path.exists(f"Buzzers/{extension}"):
+                        os.chdir(f"../Buzzers/{extension}")
+                        module = TheBuzLib.import_module_by_path("./Main.py", extension)
                         image = module.main_image(person.extensions[extension])
-                        message.append(os.getcwd()+f"\\"+image)
+                        message.append(os.getcwd()+f"/"+image)
 
                         # TODO Check if the data has changed and if so, update the db
 
@@ -34,9 +34,9 @@ while running:
             #     message = ""
 
             #     for extension in person.extensions:
-            #         if os.path.exists(f"Buzzers\\{extension}"):
-            #             os.chdir(f"Buzzers\\{extension}")
-            #             module = TheBuzLib.import_module_by_path(".\\Main.py", extension)
+            #         if os.path.exists(f"Buzzers/{extension}"):
+            #             os.chdir(f"Buzzers/{extension}")
+            #             module = TheBuzLib.import_module_by_path("./Main.py", extension)
             #             text = module.main_text(person.extensions[extension])
             #             message += text              
 

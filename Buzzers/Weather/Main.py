@@ -6,58 +6,58 @@ import time
 import os
 
 if __name__ == "__main__":
-    os.chdir("Buzzers\\Weather")
+    os.chdir("Buzzers/Weather")
 
 # Day or night file associations
 file_assc = {
-    1000: ["Images\\Sunny_TimTrad.jpg", "Images\\Clear_KenCheung.jpg"], # Sunny/Clear
-    1003: ["Images\\PartlyCloudy_JohanRydberg.jpg", "Images\\PartlyCloudy_AnanduVinod.jpg"], # Partly Cloudy
-    1006: ["Images\\Cloudy_ArtemAnokhin.jpg", "Images\\Cloudy_JasonBlackeye.jpg"], # Cloudy
-    1009: ["Images\\Overcast_WilliamBout.jpg", "Images\\Overcast_JJJordan.jpg"], # Overcast
-    1030: ["Images\\Mist_SimonBerger.jpg", "Images\\Mist_ArtemKovalev.jpgz"], # Mist
-    1063: ["Images\\PatchyRain_KevinErdvig.jpg", "Images\\PatchyRain_ToddDiemer.jpg"], # Patchy rain possible
-    1066: ["Images\\PatchySnow_MarcKleen.jpg", "Images\\PatchySnow_OsmanRana.jpg"], # Patchy snow possible
-    1069: ["Images\\", "Images\\"], # Patchy sleet possible
-    1072: ["Images\\", "Images\\"], # Patchy freezing drizzle possible
-    1187: ["Images\\", "Images\\"], # Thundery outbreaks possible
-    1114: ["Images\\", "Images\\"], # Blowing snow
-    1117: ["Images\\", "Images\\"], # Blizzard
-    1135: ["Images\\", "Images\\"], # Fog
-    1147: ["Images\\", "Images\\"], # Freezing fog
-    1150: ["Images\\", "Images\\"], # Patchy light drizzle
-    1153: ["Images\\", "Images\\"], # Light drizzle
-    1168: ["Images\\", "Images\\"], # Freezing drizzle
-    1171: ["Images\\", "Images\\"], # Heavy freezing drizzle
-    1180: ["Images\\", "Images\\"], # Patchy light rain
-    1183: ["Images\\", "Images\\"], # Light rain
-    1186: ["Images\\", "Images\\"], # Moderate rain at times
-    1189: ["Images\\", "Images\\"], # Moderate rain
-    1192: ["Images\\", "Images\\"], # Heavy rain at times
-    1905: ["Images\\", "Images\\"], # Heavy rain
-    1198: ["Images\\", "Images\\"], # Light freezing rain
-    1201: ["Images\\", "Images\\"], # Moderate or heavy freezing rain
-    1204: ["Images\\", "Images\\"], # Light sleet
-    1207: ["Images\\", "Images\\"], # Moderate or heavy sleet
-    1210: ["Images\\", "Images\\"], # Patchy light snow
-    1213: ["Images\\", "Images\\"], # Light snow
-    1216: ["Images\\", "Images\\"], # Patchy moderate snow
-    1219: ["Images\\", "Images\\"], # Moderate snow
-    1222: ["Images\\", "Images\\"], # Patchy heavy snow
-    1225: ["Images\\", "Images\\"], # Heavy snow
-    1237: ["Images\\", "Images\\"], # Ice pellets
-    1240: ["Images\\", "Images\\"], # Light rain shower
-    1243: ["Images\\", "Images\\"], # Moderate or heavy rain shower
-    1246: ["Images\\", "Images\\"], # Torrential rain shower
-    1249: ["Images\\", "Images\\"], # Light sleet showers
-    1252: ["Images\\", "Images\\"], # Moderate or heavy sleet showers
-    1255: ["Images\\", "Images\\"], # Light snow showers
-    1258: ["Images\\", "Images\\"], # Moderate or heavy snow showers
-    1261: ["Images\\", "Images\\"], # Light showers of ice pellets
-    1264: ["Images\\", "Images\\"], # Moderate or heavy showers of ice pellets
-    1273: ["Images\\", "Images\\"], # Patchy light rain with thunder
-    1276: ["Images\\", "Images\\"], # Moderate or heavy rain with thunder
-    1279: ["Images\\", "Images\\"], # Patchy light snow with thunder
-    1282: ["Images\\", "Images\\"], # Moderate or heavy snow with thunder
+    1000: ["Images/Sunny_TimTrad.jpg", "Images/Clear_KenCheung.jpg"], # Sunny/Clear
+    1003: ["Images/PartlyCloudy_JohanRydberg.jpg", "Images/PartlyCloudy_AnanduVinod.jpg"], # Partly Cloudy
+    1006: ["Images/Cloudy_ArtemAnokhin.jpg", "Images/Cloudy_JasonBlackeye.jpg"], # Cloudy
+    1009: ["Images/Overcast_WilliamBout.jpg", "Images/Overcast_JJJordan.jpg"], # Overcast
+    1030: ["Images/Mist_SimonBerger.jpg", "Images/Mist_ArtemKovalev.jpgz"], # Mist
+    1063: ["Images/PatchyRain_KevinErdvig.jpg", "Images/PatchyRain_ToddDiemer.jpg"], # Patchy rain possible
+    1066: ["Images/PatchySnow_MarcKleen.jpg", "Images/PatchySnow_OsmanRana.jpg"], # Patchy snow possible
+    1069: ["Images/", "Images/"], # Patchy sleet possible
+    1072: ["Images/", "Images/"], # Patchy freezing drizzle possible
+    1187: ["Images/", "Images/"], # Thundery outbreaks possible
+    1114: ["Images/", "Images/"], # Blowing snow
+    1117: ["Images/", "Images/"], # Blizzard
+    1135: ["Images/", "Images/"], # Fog
+    1147: ["Images/", "Images/"], # Freezing fog
+    1150: ["Images/", "Images/"], # Patchy light drizzle
+    1153: ["Images/", "Images/"], # Light drizzle
+    1168: ["Images/", "Images/"], # Freezing drizzle
+    1171: ["Images/", "Images/"], # Heavy freezing drizzle
+    1180: ["Images/", "Images/"], # Patchy light rain
+    1183: ["Images/", "Images/"], # Light rain
+    1186: ["Images/", "Images/"], # Moderate rain at times
+    1189: ["Images/", "Images/"], # Moderate rain
+    1192: ["Images/", "Images/"], # Heavy rain at times
+    1905: ["Images/", "Images/"], # Heavy rain
+    1198: ["Images/", "Images/"], # Light freezing rain
+    1201: ["Images/", "Images/"], # Moderate or heavy freezing rain
+    1204: ["Images/", "Images/"], # Light sleet
+    1207: ["Images/", "Images/"], # Moderate or heavy sleet
+    1210: ["Images/", "Images/"], # Patchy light snow
+    1213: ["Images/", "Images/"], # Light snow
+    1216: ["Images/", "Images/"], # Patchy moderate snow
+    1219: ["Images/", "Images/"], # Moderate snow
+    1222: ["Images/", "Images/"], # Patchy heavy snow
+    1225: ["Images/", "Images/"], # Heavy snow
+    1237: ["Images/", "Images/"], # Ice pellets
+    1240: ["Images/", "Images/"], # Light rain shower
+    1243: ["Images/", "Images/"], # Moderate or heavy rain shower
+    1246: ["Images/", "Images/"], # Torrential rain shower
+    1249: ["Images/", "Images/"], # Light sleet showers
+    1252: ["Images/", "Images/"], # Moderate or heavy sleet showers
+    1255: ["Images/", "Images/"], # Light snow showers
+    1258: ["Images/", "Images/"], # Moderate or heavy snow showers
+    1261: ["Images/", "Images/"], # Light showers of ice pellets
+    1264: ["Images/", "Images/"], # Moderate or heavy showers of ice pellets
+    1273: ["Images/", "Images/"], # Patchy light rain with thunder
+    1276: ["Images/", "Images/"], # Moderate or heavy rain with thunder
+    1279: ["Images/", "Images/"], # Patchy light snow with thunder
+    1282: ["Images/", "Images/"], # Moderate or heavy snow with thunder
 }
 
 def main_image(data):
@@ -98,22 +98,22 @@ def main_image(data):
 
     # Image Generation
     image_path = file_assc.get(current_code, "DefaultImage")[is_sun_up]
-    if image_path == "DefaultImage" or image_path == "Image\\":
+    if image_path == "DefaultImage" or image_path == "Image/":
         image = Image.new("RGB", (4987, 3283), (14, 15, 14))
     else:
         image = Image.open(open(image_path, "rb"))
 
-    extra_big_font = ImageFont.truetype("Assets\\FiraSans-Bold.ttf", 600)
+    extra_big_font = ImageFont.truetype("Assets/FiraSans-Bold.ttf", 600)
 
-    big_font = ImageFont.truetype("Assets\\FiraSans-Bold.ttf", 350)
+    big_font = ImageFont.truetype("Assets/FiraSans-Bold.ttf", 350)
     big_font_info = big_font.getmetrics()
     big_font_height = big_font_info[0] + big_font_info[1]
 
-    small_font = ImageFont.truetype("Assets\\FiraSans-Bold.ttf", 200)
+    small_font = ImageFont.truetype("Assets/FiraSans-Bold.ttf", 200)
     small_font_info = small_font.getmetrics()
     small_font_height = small_font_info[0] + small_font_info[1]
 
-    medium_font = ImageFont.truetype("Assets\\FiraSans-Bold.ttf", 200)
+    medium_font = ImageFont.truetype("Assets/FiraSans-Bold.ttf", 200)
     medium_font_info = medium_font.getmetrics()
     medium_font_height = medium_font_info[0] + medium_font_info[1]
 
@@ -152,5 +152,8 @@ def main_image(data):
     image.save("temp.jpg")
 
     return 'temp.jpg'
+
+def main_text(data):
+    pass
 
 #Image.open(main_image(10306)).show()
